@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sama Diné - Apprendre le Coran</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        .dark {
+            --bg-primary: #0a1e17;
+            --bg-secondary: #0f2922;
+            --bg-card: #1a3d32;
+            --text-primary: #f1f5f3;
+            --text-secondary: #a8b9b3;
+            --border: #2d5246;
+            --accent: #047857;
+        }
+        
+        .light {
+            --bg-primary: #f0fdf4;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #064e3b;
+            --text-secondary: #059669;
+            --border: #d1fae5;
+            --accent: #059669;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-item:hover {
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, #047857 0%, #059669 100%);
+            color: white;
+        }
+
+        .titre.active{
+            color: black;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+        }
+
+        .video-card, .audio-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover, .audio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(4, 120, 87, 0.3);
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 4px;
+            font-size: 24px;
+            color: #047857;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-card:hover .play-btn, .audio-card:hover .play-btn {
+            opacity: 1;
+        }
+
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 40px;
+        }
+
+        .audio-bar {
+            width: 4px;
+            background: white;
+            border-radius: 2px;
+            animation: audioWave 1s ease-in-out infinite;
+        }
+
+        .audio-bar:nth-child(1) { animation-delay: 0s; }
+        .audio-bar:nth-child(2) { animation-delay: 0.1s; }
+        .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+        .audio-bar:nth-child(4) { animation-delay: 0.3s; }
+        .audio-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes audioWave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+
+        .quiz-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quiz-option:hover {
+            background-color: #d1fae5;
+        }
+
+        .dark .quiz-option:hover {
+            background-color: #2d5246;
+        }
+
+        .quiz-option.selected {
+            background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+            color: white;
+        }
+
+        /* Compense la hauteur du header */
+#content {
+  padding-top: 70px; /* espace sous le header */
+}
+
+header.app-header {
+  background-color: white;          /* mode clair */
+  border-color: #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.dark header.app-header {
+  background-color: var(--bg-secondary);  /* mode sombre */
+  border-color: var(--border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+        </style>
+    </head>
+    <body class="light">
+        <div class="flex min-h-screen">
+            <!-- Sidebar -->
+            <aside id="sidebar" style="height: 100vh;" class="sidebar fixed md:relative w-64 fixed card border-r p-6 z-50 md:translate-x-0">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center">
+                            <i class="fas fa-mosque text-white text-xl"></i>
+                        </div>
+                        <h1 class="text-xl font-bold">Sama Diné</h1>
+                    </div>
+                    <button id="closeSidebar" class="md:hidden">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <nav class="space-y-2" style="font-size: 16px !important;">
+                    <a href="#" data-section="home" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-home"></i>
+                        <span>Accueil</span>
+                    </a>
+                    <a href="#" data-section="cours" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Commencer les cours</span>
+                    </a>
+                    <a href="#" data-section="audios" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-headphones"></i>
+                        <span>Audios</span>
+                    </a>
+                    <a href="#" data-section="favoris" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-heart"></i>
+                        <span>Favoris</span>
+                    </a>
+                    <a href="#" data-section="quizs" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Quizs</span>
+                    </a>
+                    <a href="#" data-section="progression" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Ma Progression</span>
+                    </a>
+                   
+                </nav>
+                <div class="absolute bottom-6 left-6 right-6 space-y-2">
+                    <button class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg w-full">
+                        <i class="fas fa-cog"></i>
+                        <span>Paramètres</span>
+                    </button>
+                    <button class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg w-full">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Déconnexion</span>
+                    </button>
+                </div>
+            </aside>
+            <!-- Overlay for mobile -->
+            <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+            <!-- Main Content -->
+            <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+                <header class="fixed app-header top-0 left-0 right-0 z-40 flex items-center justify-between px-4 md:px-8 py-3 
+         bg-white shadow-sm border-b border-gray-200">
+                    <!-- Bouton menu (mobile) -->
+                    <button id="menuBtn" class="md:hidden text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <!-- Zone droite -->
+                    <div class="flex items-center gap-4 ml-auto">
+                        <!-- Barre de recherche -->
+                        <div class="relative hidden md:block">
+                            <input type="text" placeholder="Rechercher une sourate..." class="px-4 py-2 pl-10 w-64 rounded-lg card border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-600 transition-all">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <!-- Bouton thème -->
+                        <button id="themeToggle" class="p-3 rounded-lg hover:scale-110 transition-transform card">
+                            <i class="fas fa-moon text-xl text-gray-700"></i>
+                        </button>
+                        <!-- Notifications -->
+                        <button class="p-3 rounded-lg relative card">
+                            <i class="fas fa-bell text-xl text-gray-400"></i>
+                           
+                        </button>
+                        <!-- Profil -->
+                        <img src="https://ui-avatars.com/api/?name=Ahmed+M&background=047857&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer border-2 border-green-600">
+                    </div>
+                </header>
+                <!-- Content Sections -->
+                <div id="content">
+                    <!-- Home Section -->
+                    <section id="home-section" class="content-section">
+                        <!-- Hero Banner -->
+                        <div class="hero-gradient rounded-2xl p-8 mb-4 text-white relative overflow-hidden">
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                                        <i class="fas fa-book-quran"></i>
+                                        Sourate en cours
+                                    </span>
+                                    <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">Niveau Débutant</span>
+                                </div>
+                                <h2 class="text-3xl md:text-4xl font-bold mb-2">سورة الفاتحة • Al-Fatiha</h2>
+                                <p class="text-white/90 mb-6 max-w-2xl">Continuez votre apprentissage de la première sourate du Coran avec Sheikh Ahmed</p>
+                                <div class="flex gap-4 mb-6 flex-wrap">
+                                    <button class="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition flex items-center gap-2">
+                                        <i class="fas fa-play"></i>
+                                        Continuer
+                                    </button>
+                                    <button class="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/30 transition">
+                                        <i class="fas fa-heart mr-2"></i>
+                                        Ajouter aux favoris
+                                    </button>
+                                </div>
+                            </div>
+                            <i class="fas fa-mosque absolute right-10 top-1/2 -translate-y-1/2 text-white/10 text-9xl"></i>
+                        </div>
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                            <div class="card p-6 rounded-xl hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg">
+                                        <i class="fas fa-book-quran text-2xl text-green-600"></i>
+                                    </div>
+                                    <span class="text-green-500 text-sm font-semibold">+12%</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-1">15/114</h3>
+                                <p style="color: var(--text-secondary)" class="text-sm">Sourates apprises</p>
+                            </div>
+                            <div class="card p-6 rounded-xl hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-lg">
+                                        <i class="fas fa-clock text-2xl text-emerald-600"></i>
+                                    </div>
+                                    <span class="text-green-500 text-sm font-semibold">+8%</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-1">42h</h3>
+                                <p style="color: var(--text-secondary)" class="text-sm">Temps d'apprentissage</p>
+                            </div>
+                            <div class="card p-6 rounded-xl hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="bg-teal-100 dark:bg-teal-900/30 p-3 rounded-lg">
+                                        <i class="fas fa-trophy text-2xl text-teal-600"></i>
+                                    </div>
+                                    <span class="text-green-500 text-sm font-semibold">+3</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-1">23</h3>
+                                <p style="color: var(--text-secondary)" class="text-sm">Quizs réussis</p>
+                            </div>
+                            <div class="card p-6 rounded-xl hover:shadow-lg transition-shadow">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="bg-amber-100 dark:bg-amber-900/30 p-3 rounded-lg">
+                                        <i class="fas fa-fire text-2xl text-amber-600"></i>
+                                    </div>
+                                    <span class="text-amber-500 text-sm font-semibold">🔥</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-1">7 jours</h3>
+                                <p style="color: var(--text-secondary)" class="text-sm">Série en cours</p>
+                            </div>
+                        </div>
+                        <!-- Continue Learning -->
+                        <!-- <div class="mb-8">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-2xl font-bold">Continuer l'apprentissage</h3>
+                                <a href="#" class="text-green-600 hover:text-green-700 font-semibold">Voir tout →</a>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-48 bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center">
+                                        <i class="fas fa-mosque text-white/20 text-6xl"></i>
+                                        <div class="play-btn">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-semibold text-gray-800">
+                                            4.9 ⭐
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Cours vidéo</span>
+                                            <span class="text-xs" style="color: var(--text-secondary)">45 min</span>
+                                        </div>
+                                        <h4 class="font-bold mb-2">Sourate Al-Baqara - Partie 1</h4>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 65%"></div>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--text-secondary)">65% complété</p>
+                                    </div>
+                                </div>
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-48 bg-gradient-to-br from-teal-600 to-cyan-600 flex items-center justify-center">
+                                        <i class="fas fa-book-open text-white/20 text-6xl"></i>
+                                        <div class="play-btn">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-semibold text-gray-800">
+                                            4.8 ⭐
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-xs bg-teal-100 dark:bg-teal-900/30 text-teal-600 px-2 py-1 rounded">Tajwid</span>
+                                            <span class="text-xs" style="color: var(--text-secondary)">30 min</span>
+                                        </div>
+                                        <h4 class="font-bold mb-2">Les règles du Tajwid</h4>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                                            <div class="bg-teal-600 h-2 rounded-full" style="width: 40%"></div>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--text-secondary)">40% complété</p>
+                                    </div>
+                                </div>
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-48 bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center">
+                                        <i class="fas fa-brain text-white/20 text-6xl"></i>
+                                        <div class="play-btn">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-semibold text-gray-800">
+                                            5.0 ⭐
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 px-2 py-1 rounded">Mémorisation</span>
+                                            <span class="text-xs" style="color: var(--text-secondary)">25 min</span>
+                                        </div>
+                                        <h4 class="font-bold mb-2">Techniques de mémorisation</h4>
+                                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                                            <div class="bg-emerald-600 h-2 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                        <p class="text-sm" style="color: var(--text-secondary)">20% complété</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- Recommended -->
+                        <!-- <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-2xl font-bold">Recommandé pour vous 🌟</h3>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-40 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                                        <span class="text-white text-4xl font-bold">يس</span>
+                                        <div class="play-btn" style="width: 40px; height: 40px; font-size: 16px;">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Nouveau</span>
+                                        <h4 class="font-bold mt-2 mb-1">Sourate Yassin</h4>
+                                        <p class="text-sm" style="color: var(--text-secondary)">Sheikh Mohammed</p>
+                                    </div>
+                                </div>
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-40 bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center">
+                                        <span class="text-white text-4xl font-bold">الملك</span>
+                                        <div class="play-btn" style="width: 40px; height: 40px; font-size: 16px;">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="text-xs bg-teal-100 dark:bg-teal-900/30 text-teal-600 px-2 py-1 rounded">Populaire</span>
+                                        <h4 class="font-bold mt-2 mb-1">Sourate Al-Mulk</h4>
+                                        <p class="text-sm" style="color: var(--text-secondary)">Sheikh Ahmed</p>
+                                    </div>
+                                </div>
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-40 bg-gradient-to-br from-emerald-500 to-green-700 flex items-center justify-center">
+                                        <span class="text-white text-4xl font-bold">الرحمن</span>
+                                        <div class="play-btn" style="width: 40px; height: 40px; font-size: 16px;">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 px-2 py-1 rounded">Tendance</span>
+                                        <h4 class="font-bold mt-2 mb-1">Sourate Ar-Rahman</h4>
+                                        <p class="text-sm" style="color: var(--text-secondary)">Sheikh Youssef</p>
+                                    </div>
+                                </div>
+                                <div class="card rounded-xl overflow-hidden video-card">
+                                    <div class="relative h-40 bg-gradient-to-br from-green-600 to-teal-700 flex items-center justify-center">
+                                        <span class="text-white text-4xl font-bold">الكهف</span>
+                                        <div class="play-btn" style="width: 40px; height: 40px; font-size: 16px;">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Recommandé</span>
+                                        <h4 class="font-bold mt-2 mb-1">Sourate Al-Kahf</h4>
+                                        <p class="text-sm" style="color: var(--text-secondary)">Sheikh Omar</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </section>
+                    <!-- Cours Section -->
+                    <section id="cours-section" class="content-section hidden">
+                        <h2 class="text-3xl font-bold mb-3">Cours Vidéo</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="card rounded-xl overflow-hidden video-card">
+                                <div class="relative h-44 bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center">
+                                    <i class="fas fa-book-quran text-white/30 text-8xl"></i>
+                                    <div class="play-btn" style="opacity: 1;">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+                                        1h 15min
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <i class="fas fa-heart text-white cursor-pointer hover:scale-110 transition"></i>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Débutant</span>
+                                        <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 px-2 py-1 rounded">✨ Nouveau</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-2">Introduction au Coran</h3>
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <img src="https://ui-avatars.com/api/?name=Sheikh+Ahmed&background=047857&color=fff" class="w-10 h-10 rounded-full" alt="Sheikh">
+                                        <div>
+                                            <p class="font-semibold">Sheikh Ahmed</p>
+                                            <p class="text-sm" style="color: var(--text-secondary)">Imam certifié</p>
+                                        </div>
+                                    </div>
+                                    <button class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                        Commencer le cours
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Fin de la dernière carte (reprise propre) -->
+                            <div class="card rounded-xl overflow-hidden video-card">
+                                <div class="relative h-44 bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center">
+                                    <i class="fas fa-book-quran text-white/30 text-8xl"></i>
+                                    <div class="play-btn" style="opacity: 1;">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm"> 1h 15min</div>
+                                    <div class="absolute top-4 right-4">
+                                        <i class="fas fa-heart text-white cursor-pointer hover:scale-110 transition"></i>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Débutant</span>
+                                        <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 px-2 py-1 rounded">✨ Nouveau</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-2">Introduction au Coran</h3>
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <img src="https://ui-avatars.com/api/?name=Sheikh+Ahmed&background=047857&color=fff" class="w-10 h-10 rounded-full" alt="Sheikh">
+                                        <div>
+                                            <p class="font-semibold">Sheikh Ahmed</p>
+                                            <p class="text-sm" style="color: var(--text-secondary)">Imam certifié</p>
+                                        </div>
+                                    </div>
+                                    <button class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"> Commencer le cours</button>
+                                </div>
+                            </div>
+                            <!-- Fin grid -->
+                            <!-- Fin de la dernière carte (reprise propre) -->
+                            <div class="card rounded-xl overflow-hidden video-card">
+                                <div class="relative h-44 bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center">
+                                    <i class="fas fa-book-quran text-white/30 text-8xl"></i>
+                                    <div class="play-btn" style="opacity: 1;">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm"> 1h 15min</div>
+                                    <div class="absolute top-4 right-4">
+                                        <i class="fas fa-heart text-white cursor-pointer hover:scale-110 transition"></i>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 px-2 py-1 rounded">Débutant</span>
+                                        <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-600 px-2 py-1 rounded">✨ Nouveau</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-2">Introduction au Coran</h3>
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <img src="https://ui-avatars.com/api/?name=Sheikh+Ahmed&background=047857&color=fff" class="w-10 h-10 rounded-full" alt="Sheikh">
+                                        <div>
+                                            <p class="font-semibold">Sheikh Ahmed</p>
+                                            <p class="text-sm" style="color: var(--text-secondary)">Imam certifié</p>
+                                        </div>
+                                    </div>
+                                    <button class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"> Commencer le cours</button>
+                                </div>
+                            </div>
+                            <!-- Fin grid -->
+                        </div>
+                    </section>
+                    <!-- Audios (podcast-like) -->
+                   <section id="audios-section" class="content-section hidden">
+    <h2 class="text-3xl font-bold mb-2">Audios</h2>
+    <div class="max-w-7xl mx-auto">
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+            <p class="mt-4 text-emerald-700">Chargement des sourates...</p>
+        </div>
+        <!-- Sourates Grid -->
+        <div id="surahs-container" class="flex flex-col gap-4 hidden"></div>
+        
+        <!-- Pagination -->
+        <div id="pagination" class="flex justify-center items-center mt-4 gap-2 hidden">
+            <button id="prev-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
+                Précédent
+            </button>
+            <div id="page-numbers" class="flex gap-2"></div>
+            <button id="next-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
+                Suivant
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 flex justify-between items-center">
+                <h2 id="modal-title" class="text-2xl font-bold"></h2>
+                <button id="close-modal" class="hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="card p-4">
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="toggleTranslation('arabic')" id="filter-arabic" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold transition">
+                        Arabe
+                    </button>
+                    <button onclick="toggleTranslation('french')" id="filter-french" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
+                        Français
+                    </button>
+                    <button onclick="toggleTranslation('english')" id="filter-english" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
+                        Anglais
+                    </button>
+                </div>
+            </div>
+            <div id="modal-content" class="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+                <div class="text-center py-8">
+                    <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentAudio = null;
+        let currentPlayingId = null;
+        let currentSurahData = {
+            arabic: null,
+            french: null,
+            english: null
+        };
+        let activeTranslations = ['arabic'];
+        
+        // Variables de pagination
+        let currentPage = 1;
+        const itemsPerPage = 3;
+        let allSurahs = [];
+
+        // Charger les sourates
+        async function loadSurahs() {
+            try {
+                const response = await fetch('http://api.alquran.cloud/v1/quran/ar.alafasy');
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    allSurahs = data.data.surahs;
+                    displaySurahs();
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                document.getElementById('loading').innerHTML = '<p class="text-red-600">Erreur de chargement</p>';
+            }
+        }
+
+        // Afficher les sourates avec pagination
+        function displaySurahs() {
+            const container = document.getElementById('surahs-container');
+            document.getElementById('loading').classList.add('hidden');
+            container.classList.remove('hidden');
+            
+            // Vider le conteneur
+            container.innerHTML = '';
+            
+            // Calculer les indices de début et fin
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const surahsToShow = allSurahs.slice(startIndex, endIndex);
+            
+            // Afficher les sourates de la page actuelle
+            surahsToShow.forEach((surah, index) => {
+                const card = document.createElement('div');
+                card.className = '--bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-5 border border-gray-700';
+                
+                const numberOfAyahs = surah.ayahs ? surah.ayahs.length : 0;
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between titre">
+                        <div class="flex items-center space-x-4 flex-1">
+                            <div class="bg-emerald-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold">
+                                ${surah.number}
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-lg text-gray-100">${surah.englishName}</h3>
+                                <p class="text-2xl text-emerald-300 font-arabic">${surah.name}</p>
+                                <p class="text-sm text-gray-400">${numberOfAyahs} versets</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="togglePlay(${surah.number}, '${surah.name}')" 
+                                    id="play-btn-${surah.number}"
+                                    class="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-3 transition-all transform hover:scale-110">
+                                <svg id="play-icon-${surah.number}" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                            <button onclick="openModal(${surah.number}, '${surah.name}', '${surah.englishName}')" 
+                                    class="bg-teal-500 hover:bg-teal-600 text-white rounded-full p-3 transition-all transform hover:scale-110">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Mettre à jour la pagination
+            updatePagination();
+        }
+
+        // Mettre à jour la pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(allSurahs.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            const pageNumbers = document.getElementById('page-numbers');
+            
+            // Afficher la pagination seulement si nécessaire
+            if (totalPages > 1) {
+                pagination.classList.remove('hidden');
+            } else {
+                pagination.classList.add('hidden');
+                return;
+            }
+            
+            // Mettre à jour les boutons précédent/suivant
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            // Générer les numéros de page
+            pageNumbers.innerHTML = '';
+            
+            // Afficher un maximum de 5 pages autour de la page actuelle
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+            
+            // Ajuster si on est près du début
+            if (currentPage <= 3) {
+                endPage = Math.min(5, totalPages);
+            }
+            
+            // Ajuster si on est près de la fin
+            if (currentPage >= totalPages - 2) {
+                startPage = Math.max(1, totalPages - 4);
+            }
+            
+            // Bouton première page
+            if (startPage > 1) {
+                const firstPageBtn = document.createElement('button');
+                firstPageBtn.className = `px-3 py-2 rounded-lg ${1 === currentPage ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} transition`;
+                firstPageBtn.textContent = '1';
+                firstPageBtn.onclick = () => goToPage(1);
+                pageNumbers.appendChild(firstPageBtn);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'px-2 py-2';
+                    ellipsis.textContent = '...';
+                    pageNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Pages numérotées
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `px-3 py-2 rounded-lg ${i === currentPage ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} transition`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+            
+            // Bouton dernière page
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'px-2 py-2';
+                    ellipsis.textContent = '...';
+                    pageNumbers.appendChild(ellipsis);
+                }
+                
+                const lastPageBtn = document.createElement('button');
+                lastPageBtn.className = `px-3 py-2 rounded-lg ${totalPages === currentPage ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} transition`;
+                lastPageBtn.textContent = totalPages;
+                lastPageBtn.onclick = () => goToPage(totalPages);
+                pageNumbers.appendChild(lastPageBtn);
+            }
+        }
+
+        // Aller à une page spécifique
+        function goToPage(page) {
+            currentPage = page;
+            displaySurahs();
+            // Faire défiler vers le haut pour voir les premières cartes
+            document.getElementById('surahs-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Événements pour les boutons précédent/suivant
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                goToPage(currentPage - 1);
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', () => {
+            const totalPages = Math.ceil(allSurahs.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        });
+
+        // Toggle lecture audio
+        async function togglePlay(surahNumber, surahName) {
+            const playIcon = document.getElementById(`play-icon-${surahNumber}`);
+            
+            // Si on clique sur la sourate en cours de lecture
+            if (currentPlayingId === surahNumber && currentAudio) {
+                if (currentAudio.paused) {
+                    currentAudio.play();
+                    updatePlayIcon(surahNumber, 'pause');
+                } else {
+                    currentAudio.pause();
+                    updatePlayIcon(surahNumber, 'play');
+                }
+                return;
+            }
+
+            // Arrêter l'audio précédent
+            if (currentAudio) {
+                currentAudio.pause();
+                updatePlayIcon(currentPlayingId, 'play');
+            }
+
+            // Charger la nouvelle sourate
+            try {
+                const response = await fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}/ar.alafasy`);
+                const data = await response.json();
+                
+                if (data.code === 200 && data.data.ayahs && data.data.ayahs.length > 0) {
+                    // Créer une playlist de tous les versets
+                    const audioUrls = data.data.ayahs.map(ayah => ayah.audio).filter(url => url);
+                    
+                    if (audioUrls.length > 0) {
+                        let currentAyahIndex = 0;
+                        
+                        const playNextAyah = () => {
+                            if (currentAyahIndex < audioUrls.length) {
+                                currentAudio = new Audio(audioUrls[currentAyahIndex]);
+                                currentPlayingId = surahNumber;
+                                
+                                currentAudio.play().catch(err => {
+                                    console.error('Erreur de lecture:', err);
+                                    updatePlayIcon(surahNumber, 'play');
+                                });
+                                
+                                updatePlayIcon(surahNumber, 'pause');
+                                
+                                currentAudio.onended = () => {
+                                    currentAyahIndex++;
+                                    if (currentAyahIndex < audioUrls.length) {
+                                        playNextAyah();
+                                    } else {
+                                        updatePlayIcon(surahNumber, 'play');
+                                        currentPlayingId = null;
+                                        currentAudio = null;
+                                    }
+                                };
+                                
+                                currentAudio.onerror = () => {
+                                    console.error('Erreur audio pour le verset:', currentAyahIndex + 1);
+                                    currentAyahIndex++;
+                                    if (currentAyahIndex < audioUrls.length) {
+                                        playNextAyah();
+                                    } else {
+                                        updatePlayIcon(surahNumber, 'play');
+                                        currentPlayingId = null;
+                                    }
+                                };
+                            }
+                        };
+                        
+                        playNextAyah();
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur de lecture:', error);
+                updatePlayIcon(surahNumber, 'play');
+            }
+        }
+
+        // Mettre à jour l'icône play/pause
+        function updatePlayIcon(surahNumber, state) {
+            const icon = document.getElementById(`play-icon-${surahNumber}`);
+            if (state === 'pause') {
+                icon.innerHTML = '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
+            } else {
+                icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            }
+        }
+
+        // Ouvrir le modal avec le texte
+        async function openModal(surahNumber, arabicName, englishName) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modalTitle.textContent = `${englishName} - ${arabicName}`;
+            modalContent.innerHTML = '<div class="text-center py-8"><div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div></div>';
+            
+            // Réinitialiser les filtres
+            activeTranslations = ['arabic'];
+            updateFilterButtons();
+            
+            try {
+                // Charger les différentes versions
+                const [arabicRes, frenchRes, englishRes] = await Promise.all([
+                    fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}`),
+                    fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}/fr.hamidullah`),
+                    fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}/en.asad`)
+                ]);
+                
+                const [arabicData, frenchData, englishData] = await Promise.all([
+                    arabicRes.json(),
+                    frenchRes.json(),
+                    englishRes.json()
+                ]);
+                
+                if (arabicData.code === 200) {
+                    currentSurahData.arabic = arabicData.data.ayahs;
+                    currentSurahData.french = frenchData.code === 200 ? frenchData.data.ayahs : null;
+                    currentSurahData.english = englishData.code === 200 ? englishData.data.ayahs : null;
+                    
+                    displaySurahContent();
+                }
+            } catch (error) {
+                modalContent.innerHTML = '<p class="text-red-600 text-center">Erreur de chargement du texte</p>';
+            }
+        }
+
+        // Afficher le contenu de la sourate
+        function displaySurahContent() {
+            const modalContent = document.getElementById('modal-content');
+            let content = '';
+            
+            const ayahCount = currentSurahData.arabic.length;
+            
+            for (let i = 0; i < ayahCount; i++) {
+                content += `<div class="mb-6 p-4 bg-white rounded-lg border-l-4 border-emerald-500 shadow-sm">`;
+                
+                // Arabe
+                if (activeTranslations.includes('arabic')) {
+                    content += `
+                        <div class="mb-4">
+                            <p class="text-right text-2xl leading-loose text-gray-800" style="font-family: 'Arial', sans-serif;">${currentSurahData.arabic[i].text}</p>
+                            <p class="text-sm text-emerald-700 font-semibold mt-2">Verset ${currentSurahData.arabic[i].numberInSurah}</p>
+                        </div>
+                    `;
+                }
+                
+                // Français
+                if (activeTranslations.includes('french') && currentSurahData.french) {
+                    content += `
+                        <div class="mb-4 pl-4 border-l-2 border-blue-300">
+                            <p class="text-gray-700 leading-relaxed">${currentSurahData.french[i].text}</p>
+                            <p class="text-xs text-blue-600 font-semibold mt-1">🇫🇷 Traduction française</p>
+                        </div>
+                    `;
+                }
+                
+                // Anglais
+                if (activeTranslations.includes('english') && currentSurahData.english) {
+                    content += `
+                        <div class="mb-4 pl-4 border-l-2 border-purple-300">
+                            <p class="text-gray-700 leading-relaxed italic">${currentSurahData.english[i].text}</p>
+                            <p class="text-xs text-purple-600 font-semibold mt-1">🇬🇧 English translation</p>
+                        </div>
+                    `;
+                }
+                
+                content += `</div>`;
+            }
+            
+            modalContent.innerHTML = content;
+        }
+
+        // Toggle traduction
+        function toggleTranslation(lang) {
+            const index = activeTranslations.indexOf(lang);
+            if (index > -1) {
+                if (activeTranslations.length > 1) {
+                    activeTranslations.splice(index, 1);
+                }
+            } else {
+                activeTranslations.push(lang);
+            }
+            updateFilterButtons();
+            displaySurahContent();
+        }
+
+        // Mettre à jour les boutons de filtre
+        function updateFilterButtons() {
+            ['arabic', 'french', 'english'].forEach(lang => {
+                const btn = document.getElementById(`filter-${lang}`);
+                if (activeTranslations.includes(lang)) {
+                    btn.className = 'px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold transition';
+                } else {
+                    btn.className = 'px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition';
+                }
+            });
+        }
+
+        // Fermer le modal
+        document.getElementById('close-modal').addEventListener('click', () => {
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        // Fermer en cliquant à l'extérieur
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                const modal = document.getElementById('modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        });
+
+        // Charger au démarrage
+        loadSurahs();
+    </script>
+</section>
+                    <!-- Favoris -->
+                    <section id="favoris-section" class="content-section hidden">
+                        <h2 class="text-3xl font-bold mb-2">Favoris</h2>
+                        <p style="color: var(--text-secondary)" class="mb-6">Tous les éléments que vous avez ajoutés aux favoris.</p>
+                        <div id="favoritesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Rempli dynamiquement par JS -->
+                            <div class="text-sm" style="color: var(--text-secondary)">Vous n'avez pas encore de favoris.</div>
+                        </div>
+                    </section>
+                    <!-- Quizs -->
+                    <section id="quizs-section" class="content-section hidden">
+                        <h2 class="text-3xl font-bold mb-2">Quizs</h2>
+                        <p style="color: var(--text-secondary)" class="mb-6">Testez vos connaissances — choisissez la bonne réponse et envoyez.</p>
+                        <div id="quizContainer" class="space-y-6">
+                            <!-- Exemple de quiz -->
+                            <div class="card p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-2">Quiz 1 — Quelle est la première sourate du Coran ?</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Al-Baqara</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="true">Al-Fatiha</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Yasin</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Al-Kahf</div>
+                                </div>
+                                <div class="mt-4 flex gap-3">
+                                    <button class="submit-quiz bg-green-600 text-white px-4 py-2 rounded">Valider</button>
+                                    <div class="result text-sm font-semibold" style="display:none"></div>
+                                </div>
+                            </div>
+                            <div class="card p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-2">Quiz 2 — Le Tajwid concerne :</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="true">Les règles de prononciation lors de la récitation</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La traduction</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La calligraphie</div>
+                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La musique</div>
+                                </div>
+                                <div class="mt-4 flex gap-3">
+                                    <button class="submit-quiz bg-green-600 text-white px-4 py-2 rounded">Valider</button>
+                                    <div class="result text-sm font-semibold" style="display:none"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Progression -->
+                    <section id="progression-section" class="content-section hidden">
+                        <h2 class="text-3xl font-bold mb-2">Ma Progression</h2>
+                        <p style="color: var(--text-secondary)" class="mb-6">Suivez votre avancement — sourates apprises, temps total, quizs réussis.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                            <div class="card p-6 rounded-xl">
+                                <h4 class="text-sm text-green-600 font-semibold mb-2">Sourates apprises</h4>
+                                <div class="text-2xl font-bold" id="stat-sourates">0/114</div>
+                            </div>
+                            <div class="card p-6 rounded-xl">
+                                <h4 class="text-sm text-green-600 font-semibold mb-2">Temps d'apprentissage</h4>
+                                <div class="text-2xl font-bold" id="stat-temps">0h</div>
+                            </div>
+                            <div class="card p-6 rounded-xl">
+                                <h4 class="text-sm text-green-600 font-semibold mb-2">Quizs réussis</h4>
+                                <div class="text-2xl font-bold" id="stat-quizs">0</div>
+                            </div>
+                        </div>
+                        <div class="card p-6 rounded-xl">
+                            <h3 class="font-bold mb-4">Détails</h3>
+                            <p style="color: var(--text-secondary)">Les statistiques sont sauvegardées localement (simulateur). Chaque quiz validé augmente vos points de progression.</p>
+                        </div>
+                    </section>
+                </div>
+                <!-- fin content -->
+            </main>
+        </div>
+        <!-- audio element global (utilisé par JS) -->
+        <audio id="globalAudio" preload="none"></audio>
+        <script>
+  // ----------------------
+  // Variables & éléments
+  // ----------------------
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  const closeSidebar = document.getElementById('closeSidebar');
+  const themeToggle = document.getElementById('themeToggle');
+  const body = document.body;
+  const sections = document.querySelectorAll('.content-section');
+  const sidebarItems = document.querySelectorAll('.sidebar-item[data-section]');
+  const audioButtons = document.querySelectorAll('.play-audio');
+  const globalAudio = document.getElementById('globalAudio');
+  const favButtons = document.querySelectorAll('.fav-btn');
+  const favoritesList = document.getElementById('favoritesList');
+
+  // Progression (simulée)
+  const statSourates = document.getElementById('stat-sourates');
+  const statTemps = document.getElementById('stat-temps');
+  const statQuizs = document.getElementById('stat-quizs');
+
+  // State localStorage keys
+  const KEY_THEME = 'quranlearn_theme';
+  const KEY_FAVS = 'quranlearn_favs';
+  const KEY_PROG = 'quranlearn_prog';
+
+  // ----------------------
+  // Initialisation
+  // ----------------------
+  document.addEventListener('DOMContentLoaded', () => {
+    // Appliquer thème sauvegardé
+    const savedTheme = localStorage.getItem(KEY_THEME) || 'light';
+    setTheme(savedTheme);
+
+    // Charger favoris
+    renderFavorites();
+
+    // Charger progression sauvegardée (si présente)
+    loadProgression();
+  });
+
+  // ----------------------
+  // Navigation
+  // ----------------------
+  sidebarItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = item.getAttribute('data-section');
+      openSection(target);
+      // marquer actif
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      // close sidebar on mobile
+      if (window.innerWidth < 768) {
+        sidebar.classList.remove('active');
+        overlay.classList.add('hidden');
+      }
+    });
+  });
+
+  function openSection(name) {
+    sections.forEach(s => s.classList.add('hidden'));
+    const el = document.getElementById(name + '-section');
+    if (el) el.classList.remove('hidden');
+  }
+
+  // Default open home
+  openSection('home');
+
+  // ----------------------
+  // Menu mobile
+  // ----------------------
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.add('active');
+    overlay.classList.remove('hidden');
+  });
+  closeSidebar?.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.add('hidden');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.add('hidden');
+  });
+
+  // ----------------------
+  // Theme toggle
+  // ----------------------
+  function setTheme(mode) {
+    if (mode === 'dark') {
+      document.documentElement.classList.add('dark');
+      body.classList.remove('light');
+      body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      body.classList.remove('dark');
+      body.classList.add('light');
+    }
+    localStorage.setItem(KEY_THEME, mode);
+    // changer icone
+    themeToggle.innerHTML = mode === 'dark' ? '<i class="fas fa-sun text-xl text-gray-300"></i>' : '<i class="fas fa-moon text-xl"></i>';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = body.classList.contains('dark') ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // ----------------------
+  // Audio play logic (global)
+  // ----------------------
+  audioButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const src = btn.getAttribute('data-src');
+      if (!src) return;
+      if (globalAudio.src !== src) {
+        globalAudio.src = src;
+      }
+      if (globalAudio.paused) {
+        globalAudio.play();
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+        // swap other buttons to play icons
+        audioButtons.forEach(b => { if (b !== btn) b.innerHTML = '<i class="fas fa-play"></i>'; });
+      } else {
+        globalAudio.pause();
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    });
+  });
+
+  globalAudio.addEventListener('ended', () => {
+    audioButtons.forEach(b => b.innerHTML = '<i class="fas fa-play"></i>');
+  });
+
+  // ----------------------
+  // Favoris (localStorage)
+  // ----------------------
+  function getFavs() {
+    try {
+      return JSON.parse(localStorage.getItem(KEY_FAVS) || '[]');
+    } catch(e) { return []; }
+  }
+  function saveFavs(arr) {
+    localStorage.setItem(KEY_FAVS, JSON.stringify(arr));
+  }
+
+  favButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id') || ('fav-' + Date.now());
+      let favs = getFavs();
+      if (favs.includes(id)) {
+        // retirer
+        favs = favs.filter(f => f !== id);
+        btn.classList.remove('text-red-500');
+      } else {
+        favs.push(id);
+        btn.classList.add('text-red-500');
+      }
+      saveFavs(favs);
+      renderFavorites();
+    });
+  });
+
+//   function renderFavorites() {
+//     const favs = getFavs();
+//     favoritesList.innerHTML = '';
+//     if (!favs.length) {
+//       favoritesList.innerHTML = '<div class="text-sm" style="color: var(--text-secondary)">Vous n\\'avez pas encore de favoris.</div>';
+//       return;
+//     }
+//     favs.forEach(id => {
+//       const node = document.createElement('div');
+//       node.className = 'card p-4 rounded-lg flex items-center justify-between';
+//       node.innerHTML = \`
+//         <div>
+//           <h4 class="font-bold text-sm">Élément favori (\${id})</h4>
+//           <p class="text-xs" style="color: var(--text-secondary)">Type : audio / vidéo</p>
+//         </div>
+//         <div class="flex items-center gap-2">
+//           <button class="card p-2 rounded" data-id="\${id}" onclick="removeFav(this)"><i class="fas fa-trash"></i></button>
+//         </div>
+//       \`;
+//       favoritesList.appendChild(node);
+//     });
+//   }
+
+  // expose small helper pour le onclick inline
+  window.removeFav = function(btn) {
+    const id = btn.getAttribute('data-id');
+    let favs = getFavs();
+    favs = favs.filter(f => f !== id);
+    saveFavs(favs);
+    renderFavorites();
+  };
+
+  // ----------------------
+  // Quiz logic
+  // ----------------------
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      // Unselect siblings
+      const parent = opt.parentElement;
+      parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  document.querySelectorAll('.submit-quiz').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const container = btn.closest('.card');
+      const chosen = container.querySelector('.quiz-option.selected');
+      const resultBox = container.querySelector('.result');
+      if (!chosen) {
+        resultBox.style.display = 'block';
+        resultBox.style.color = '#b91c1c'; // red
+        resultBox.textContent = 'Veuillez sélectionner une réponse.';
+        return;
+      }
+      const correct = chosen.getAttribute('data-correct') === 'true';
+      resultBox.style.display = 'block';
+      if (correct) {
+        resultBox.style.color = '#166534'; // green
+        resultBox.textContent = 'Correct ! 🎉';
+        // mettre à jour progression : quizs réussis
+        incrementProgress({ quizSuccess: 1 });
+      } else {
+        resultBox.style.color = '#b91c1c';
+        resultBox.textContent = 'Incorrect. Essayez encore.';
+      }
+    });
+  });
+
+  // ----------------------
+  // Progression simulated (localStorage)
+  // ----------------------
+//   function loadProgression() {
+//     const raw = localStorage.getItem(KEY_PROG);
+//     let prog = { sourates: 15, tempsHours: 42, quizs: 23 }; // fallback par défaut (peut être modifié)
+//     try {
+//       if (raw) {
+//         prog = JSON.parse(raw);
+//       } else {
+//         localStorage.setItem(KEY_PROG, JSON.stringify(prog));
+//       }
+//     } catch(e) { /* ignore */ }
+//     statSourates.textContent = \`\${prog.sourates}/114\`;
+//     statTemps.textContent = \`\${prog.tempsHours}h\`;
+//     statQuizs.textContent = prog.quizs;
+//   }
+
+//   function incrementProgress({ sourates = 0, tempsHours = 0, quizSuccess = 0 } = {}) {
+//     let prog = { sourates: 0, tempsHours: 0, quizs: 0 };
+//     try {
+//       const raw = localStorage.getItem(KEY_PROG);
+//       if (raw) prog = JSON.parse(raw);
+//     } catch(e) {}
+//     prog.sourates += sourates;
+//     prog.tempsHours += tempsHours;
+//     prog.quizs += quizSuccess;
+//     localStorage.setItem(KEY_PROG, JSON.stringify(prog));
+//     loadProgression();
+//   }
+
+//   // ----------------------
+//   // Small helpers for UX
+//   // ----------------------
+//   // Fermer play/pause si navigation ou section change
+//   sidebarItems.forEach(i => i.addEventListener('click', () => {
+//     if (!globalAudio.paused) {
+//       globalAudio.pause();
+//       audioButtons.forEach(b => b.innerHTML = '<i class="fas fa-play"></i>');
+//     }
+//   }));
+
+//   // Accessibility: close overlay on Escape
+//   document.addEventListener('keydown', (e) => {
+//     if (e.key === 'Escape') {
+//       sidebar.classList.remove('active');
+//       overlay.classList.add('hidden');
+//     }
+//   });
+
+//   // ----------------------
+//   // End of script
+//   // ----------------------
+        </script>
+    </body>
+</html>
