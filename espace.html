@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
@@ -40,7 +41,6 @@ padding-bottom: 100px;
 padding-bottom: 120px;
 }
 }
-
 @media screen and (max-width: 767px) {
     #videos, #dashboard, #audios, #quiz, #progress{
         padding-bottom: 5rem !important;
@@ -52,6 +52,55 @@ padding-bottom: 120px;
 }
 
 
+/* Correction du scroll horizontal dans la section Videos */
+#videos {
+    overflow-x: hidden; /* Empêche le scroll horizontal */
+}
+
+/* Correction des éléments flex dans la section Videos */
+#videos .flex {
+    flex-wrap: wrap; /* Permet le retour à la ligne sur mobile */
+}
+
+#videos .flex > * {
+    min-width: 0; /* Empêche les éléments de dépasser */
+}
+
+/* Correction des selects dans la section Videos */
+#videos select {
+    max-width: 100%; /* Les selects ne dépassent pas la largeur */
+    box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+/* Correction de la grille des vidéos */
+#videos .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grille responsive */
+}
+
+/* Correction pour les images dans les cartes vidéo */
+#videos img {
+    max-width: 100%; /* Les images ne dépassent pas leur conteneur */
+    height: auto; /* Maintient les proportions */
+}
+
+/* Correction pour les cartes vidéo */
+#videos .bg-white {
+    max-width: 100%; /* Les cartes ne dépassent pas leur conteneur */
+    box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+/* Correction spécifique pour les selects sur mobile */
+@media (max-width: 768px) {
+    #videos .flex.gap-3 {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px !important;
+    }
+    
+    #videos .flex.gap-3 select {
+        width: 100%;
+    }
+}
         </style>
     </head>
     <body class="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-emerald-900/5 dark:to-green-900/5 transition-colors duration-300">
@@ -174,14 +223,11 @@ padding-bottom: 120px;
         </nav>
         <!-- Contenu principal -->
         <main class="p-4 md:p-6 mobile-content">
-           
-            <!-- Tableau de bord -->
-            <div id="dashboard" class="tab-content">
-                 <!-- Section d'accueil -->
+            <!-- Section d'accueil -->
             <div class="mb-6 md:mb-8 bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-900/30 dark:via-emerald-900/20 dark:to-teal-900/30 rounded-3xl p-6 md:p-8 pattern-bg shadow-xl border border-green-200/50 dark:border-green-800/50">
                 <div class="flex flex-col lg:flex-row items-center justify-between">
                     <div class="flex-1 text-center lg:text-left mb-6 lg:mb-0">
-                        <h2 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-emerald-700 dark:from-emerald-300 dark:to-green-300 bg-clip-text text-transparent mb-3">Assalamu Alaikum, Libasse</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-emerald-700 dark:from-emerald-300 dark:to-green-300 bg-clip-text text-transparent mb-3">Assalamu Alaikum, Ahmed</h2>
                         <p class="text-lg md:text-xl arabic-text text-green-700 dark:text-emerald-400 mb-4 font-medium">السلام عليكم ورحمة الله وبركاته</p>
                         <blockquote class="text-gray-700 dark:text-gray-300 italic text-sm md:text-base leading-relaxed bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border-l-4 border-primary">
                             "Et Nous avons facilité le Coran pour la méditation. Y a-t-il quelqu'un pour réfléchir ?" - Sourate Al-Qamar
@@ -192,6 +238,8 @@ padding-bottom: 120px;
                     </div>
                 </div>
             </div>
+            <!-- Tableau de bord -->
+            <div id="dashboard" class="tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <!-- Progression globale -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
@@ -326,23 +374,23 @@ padding-bottom: 120px;
             </div>
             <!-- Cours vidéo -->
             <div id="videos" class="tab-content hidden">
-                <div class="flex flex-col md:flex-row gap-6 mb-6">
-                    <div class="flex-1">
-                        <div class="relative">
+                <div class="flex flex-col md:flex-row gap-4 md:gap-6 mb-6 w-full">
+                    <div class="flex-1 w-full">
+                        <div class="relative w-full">
                             <input type="text" placeholder="Rechercher une sourate, un récitateur..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
                                 <i class="ri-search-line text-gray-400"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="flex gap-3">
-                        <select class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
+                    <div class="flex gap-3 w-full md:w-auto">
+                        <select class="w-full md:w-auto px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
                             <option>Toutes les sourates</option>
                             <option>Al-Fatiha</option>
                             <option>Al-Baqarah</option>
                             <option>Al-Imran</option>
                         </select>
-                        <select class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
+                        <select class="w-full md:w-auto px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
                             <option>Tous niveaux</option>
                             <option>Débutant</option>
                             <option>Intermédiaire</option>
@@ -350,9 +398,9 @@ padding-bottom: 120px;
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
-                        <div class="relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer w-full">
+                        <div class="relative w-full">
                             <img src="https://readdy.ai/api/search-image?query=Beautiful%20mosque%20interior%20with%20Islamic%20calligraphy%20and%20Quran%20recitation%20setup%2C%20warm%20golden%20lighting%2C%20peaceful%20atmosphere%2C%20educational%20video%20content%2C%20high%20quality%20photography&width=400&height=250&seq=course1&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                 <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
@@ -366,7 +414,7 @@ padding-bottom: 120px;
                             <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sourate Al-Fatiha - Récitation complète</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sheikh Mishary Rashid Al-Afasy</p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center space-x-2 w-full">
                                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
                                         <div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
                                     </div>
@@ -378,8 +426,8 @@ padding-bottom: 120px;
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
-                        <div class="relative">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer w-full">
+                        <div class="relative w-full">
                             <img src="https://readdy.ai/api/search-image?query=Islamic%20educational%20content%20with%20Arabic%20calligraphy%20and%20Quran%20verses%2C%20peaceful%20learning%20environment%2C%20warm%20lighting%2C%20modern%20educational%20setup%2C%20high%20quality%20photography&width=400&height=250&seq=course2&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                 <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
@@ -393,7 +441,7 @@ padding-bottom: 120px;
                             <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sourate Al-Baqarah - Ayat Al-Kursi</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sheikh Abdul Rahman Al-Sudais</p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center space-x-2 w-full">
                                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
                                         <div class="bg-primary h-1.5 rounded-full" style="width: 65%"></div>
                                     </div>
@@ -405,8 +453,8 @@ padding-bottom: 120px;
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
-                        <div class="relative">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer w-full">
+                        <div class="relative w-full">
                             <img src="https://readdy.ai/api/search-image?query=Advanced%20Islamic%20studies%20with%20Quran%20and%20Islamic%20geometric%20patterns%2C%20scholarly%20environment%2C%20warm%20lighting%2C%20educational%20content%2C%20high%20quality%20photography&width=400&height=250&seq=course3&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                                 <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
@@ -420,7 +468,7 @@ padding-bottom: 120px;
                             <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Tafsir Sourate Yasin</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Omar Suleiman</p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center space-x-2 w-full">
                                     <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
                                         <div class="bg-primary h-1.5 rounded-full" style="width: 0%"></div>
                                     </div>
