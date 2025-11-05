@@ -207,7 +207,6 @@ header.app-header {
                         <i class="fas fa-chart-line"></i>
                         <span>Ma Progression</span>
                     </a>
-                   
                 </nav>
                 <div class="absolute bottom-6 left-6 right-6 space-y-2">
                     <button class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg w-full">
@@ -244,7 +243,6 @@ header.app-header {
                         <!-- Notifications -->
                         <button class="p-3 rounded-lg relative card">
                             <i class="fas fa-bell text-xl text-gray-400"></i>
-                           
                         </button>
                         <!-- Profil -->
                         <img src="https://ui-avatars.com/api/?name=Ahmed+M&background=047857&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer border-2 border-green-600">
@@ -554,62 +552,69 @@ header.app-header {
                         </div>
                     </section>
                     <!-- Audios (podcast-like) -->
-                   <section id="audios-section" class="content-section hidden">
-    <h2 class="text-3xl font-bold mb-2">Audios</h2>
-    <div class="max-w-7xl mx-auto">
-        <!-- Loading State -->
-        <div id="loading" class="text-center py-12">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
-            <p class="mt-4 text-emerald-700">Chargement des sourates...</p>
-        </div>
-        <!-- Sourates Grid -->
-        <div id="surahs-container" class="flex flex-col gap-4 hidden"></div>
-        
-        <!-- Pagination -->
-        <div id="pagination" class="flex justify-center items-center mt-4 gap-2 hidden">
-            <button id="prev-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
-                Précédent
-            </button>
-            <div id="page-numbers" class="flex gap-2"></div>
-            <button id="next-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
-                Suivant
-            </button>
-        </div>
-    </div>
-    
-    <!-- Modal -->
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 flex justify-between items-center">
-                <h2 id="modal-title" class="text-2xl font-bold"></h2>
-                <button id="close-modal" class="hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="card p-4">
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="toggleTranslation('arabic')" id="filter-arabic" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold transition">
-                        Arabe
-                    </button>
-                    <button onclick="toggleTranslation('french')" id="filter-french" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
-                        Français
-                    </button>
-                    <button onclick="toggleTranslation('english')" id="filter-english" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
-                        Anglais
-                    </button>
-                </div>
-            </div>
-            <div id="modal-content" class="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-                <div class="text-center py-8">
-                    <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
+                    <section id="audios-section" class="content-section hidden">
+                        <h2 class="text-3xl font-bold mb-2">Audios</h2>
+                        <div class="max-w-7xl mx-auto">
+                            <!-- Loading State -->
+                            <div id="loading" class="text-center py-12">
+                                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-emerald-500 border-t-transparent"></div>
+                                <p class="mt-4 text-emerald-700">Chargement des sourates...</p>
+                            </div>
+                            <!-- Sourates Grid -->
+                            <div id="surahs-container" class="flex flex-col gap-4 hidden"></div>
+                            <!-- Pagination -->
+                            <div id="pagination" class="flex justify-center items-center mt-4 gap-2 hidden">
+                                <button id="prev-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
+                                    Précédent
+                                </button>
+                                <div id="page-numbers" class="flex gap-2"></div>
+                                <button id="next-page" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition">
+                                    Suivant
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+                            <div class="card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+                                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 flex justify-between items-center">
+                                    <h2 id="modal-title" class="text-2xl font-bold"></h2>
+                                    <button id="close-modal" class="hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition">
+                                        <svg
+                                            class="w-6 h-6"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="card p-4">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button onclick="toggleTranslation('arabic')" id="filter-arabic" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold transition">
+                                            Arabe
+                                        </button>
+                                        <button onclick="toggleTranslation('french')" id="filter-french" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
+                                            Français
+                                        </button>
+                                        <button onclick="toggleTranslation('english')" id="filter-english" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition">
+                                            Anglais
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="modal-content" class="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+                                    <div class="text-center py-8">
+                                        <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
         let currentAudio = null;
         let currentPlayingId = null;
         let currentSurahData = {
@@ -1019,8 +1024,8 @@ header.app-header {
 
         // Charger au démarrage
         loadSurahs();
-    </script>
-</section>
+                        </script>
+                    </section>
                     <!-- Favoris -->
                     <section id="favoris-section" class="content-section hidden">
                         <h2 class="text-3xl font-bold mb-2">Favoris</h2>
@@ -1032,35 +1037,544 @@ header.app-header {
                     </section>
                     <!-- Quizs -->
                     <section id="quizs-section" class="content-section hidden">
-                        <h2 class="text-3xl font-bold mb-2">Quizs</h2>
+                        <!-- <h2 class="text-3xl font-bold mb-2">Quizs</h2> -->
                         <p style="color: var(--text-secondary)" class="mb-6">Testez vos connaissances — choisissez la bonne réponse et envoyez.</p>
                         <div id="quizContainer" class="space-y-6">
-                            <!-- Exemple de quiz -->
-                            <div class="card p-6 rounded-xl">
-                                <h3 class="font-bold text-xl mb-2">Quiz 1 — Quelle est la première sourate du Coran ?</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Al-Baqara</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="true">Al-Fatiha</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Yasin</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">Al-Kahf</div>
+                            <!-- État de démarrage du quiz -->
+                            <div id="quiz-start" class="text-center  card rounded-lg shadow-lg p-8 app-header">
+                               
+                                <h2 class="text-2xl font-bold text-white mb-4">Testez vos connaissances</h2>
+                                <p class="text-white mb-6 max-w-2xl mx-auto">
+                                    Répondez à des questions sur les sourates, les versets et les enseignements du Coran. 
+                Choisissez le niveau de difficulté qui vous convient.
+                                </p>
+                                <!-- Sélection du niveau -->
+                                <div class="mb-8">
+                                    <h3 class="text-lg font-semibold  mb-4">Choisissez le niveau :</h3>
+                                    <div class="flex flex-wrap justify-center gap-4">
+                                        <button onclick="startQuiz('facile')" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105">
+                                            🏆 Facile
+                                        </button>
+                                        <button onclick="startQuiz('moyen')" class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition transform hover:scale-105">
+                                            ⚡ Moyen
+                                        </button>
+                                        <button onclick="startQuiz('difficile')" class="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition transform hover:scale-105">
+                                            🔥 Difficile
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="mt-4 flex gap-3">
-                                    <button class="submit-quiz bg-green-600 text-white px-4 py-2 rounded">Valider</button>
-                                    <div class="result text-sm font-semibold" style="display:none"></div>
+                                <!-- Statistiques rapides -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <div class="text-2xl font-bold text-emerald-600">114</div>
+                                        <div class="text-sm text-emerald-700">Sourates</div>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <div class="text-2xl font-bold text-blue-600">6,236</div>
+                                        <div class="text-sm text-blue-700">Versets</div>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <div class="text-2xl font-bold text-purple-600">30</div>
+                                        <div class="text-sm text-purple-700">Juz</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card p-6 rounded-xl">
-                                <h3 class="font-bold text-xl mb-2">Quiz 2 — Le Tajwid concerne :</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="true">Les règles de prononciation lors de la récitation</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La traduction</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La calligraphie</div>
-                                    <div class="quiz-option p-4 rounded-lg" data-correct="false">La musique</div>
+                            <!-- Interface du quiz en cours -->
+                            <div id="quiz-in-progress" class="hidden">
+                                <!-- En-tête du quiz -->
+                                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                                        <div>
+                                            <h2 id="quiz-level" class="text-xl font-bold text-gray-800"></h2>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <div id="quiz-timer" class="text-lg font-semibold text-emerald-600">
+                                                    00:00
+                                                </div>
+                                                <span class="text-gray-400">•</span>
+                                                <div id="quiz-progress" class="text-sm text-gray-600">
+                                                    Question
+                                                    <span id="current-question">1</span>/
+                                                    <span id="total-questions">10</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                            <div class="text-right">
+                                                <div class="text-sm text-gray-500">Score</div>
+                                                <div id="quiz-score" class="text-xl font-bold text-emerald-600">0</div>
+                                            </div>
+                                            <button onclick="endQuiz()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
+                                                Quitter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Barre de progression -->
+                                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                                        <div id="progress-bar" class="bg-emerald-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                    </div>
                                 </div>
-                                <div class="mt-4 flex gap-3">
-                                    <button class="submit-quiz bg-green-600 text-white px-4 py-2 rounded">Valider</button>
-                                    <div class="result text-sm font-semibold" style="display:none"></div>
+                                <!-- Question actuelle -->
+                                <div id="quiz-question" class="bg-white rounded-lg shadow-lg p-8 mb-6">
+                                    <div class="text-center mb-8">
+                                        <h3 id="question-text" class="text-2xl font-bold text-gray-800 mb-4"></h3>
+                                        <div id="question-arabic" class="text-3xl text-emerald-700 font-arabic mb-4 hidden"></div>
+                                        <div id="question-hint" class="text-sm text-gray-500 italic hidden"></div>
+                                    </div>
+                                    <!-- Options de réponse -->
+                                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                                        <!-- Les options seront générées dynamiquement --></div>
                                 </div>
+                                <!-- Navigation -->
+                                <div class="flex justify-between items-center">
+                                    <button
+                                        id="prev-question"
+                                        onclick="previousQuestion()"
+                                        class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                        disabled
+                                    >
+                                        ← Précédent
+                                    </button>
+                                    <button id="next-question" onclick="nextQuestion()" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                                        Suivant →
+                                    </button>
+                                    <button id="submit-quiz" onclick="submitQuiz()" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition hidden">
+                                        Terminer ✓
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Résultats du quiz -->
+                            <div id="quiz-results" class="hidden">
+                                <div class="bg-white rounded-lg shadow-lg p-8 text-center max-w-2xl mx-auto">
+                                    <div id="result-icon" class="text-6xl mb-4">🎉</div>
+                                    <h2 id="result-title" class="text-3xl font-bold text-gray-800 mb-4"></h2>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                        <div class="bg-emerald-50 rounded-lg p-4">
+                                            <div id="final-score" class="text-2xl font-bold text-emerald-600">0</div>
+                                            <div class="text-sm text-emerald-700">Score</div>
+                                        </div>
+                                        <div class="bg-blue-50 rounded-lg p-4">
+                                            <div id="correct-answers" class="text-2xl font-bold text-blue-600">0</div>
+                                            <div class="text-sm text-blue-700">Correctes</div>
+                                        </div>
+                                        <div class="bg-yellow-50 rounded-lg p-4">
+                                            <div id="time-taken" class="text-2xl font-bold text-yellow-600">00:00</div>
+                                            <div class="text-sm text-yellow-700">Temps</div>
+                                        </div>
+                                        <div class="bg-purple-50 rounded-lg p-4">
+                                            <div id="success-rate" class="text-2xl font-bold text-purple-600">0%</div>
+                                            <div class="text-sm text-purple-700">Réussite</div>
+                                        </div>
+                                    </div>
+                                    <div id="result-message" class="text-lg text-gray-600 mb-6"></div>
+                                    <div class="flex flex-wrap justify-center gap-4">
+                                        <button onclick="restartQuiz()" class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                                            🔄 Nouveau Quiz
+                                        </button>
+                                        <button onclick="showAnswerReview()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                                            📊 Voir les réponses
+                                        </button>
+                                        <button onclick="exitToMenu()" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
+                                            🏠 Menu principal
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Revue des réponses -->
+                                <div id="answer-review" class="mt-8 hidden">
+                                    <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Détail des réponses</h3>
+                                    <div id="review-questions" class="space-y-4">
+                                        <!-- Les révisions seront générées dynamiquement --></div>
+                                </div>
+                                 <script>
+                    // Variables du quiz
+                    let quizData = {
+                        currentLevel: '',
+                        questions: [],
+                        currentQuestionIndex: 0,
+                        userAnswers: [],
+                        score: 0,
+                        startTime: null,
+                        timerInterval: null
+                    };
+
+        // Base de données de questions
+        const questionDatabase = {
+            facile: [
+                {
+                    question: "Combien de sourates contient le Coran ?",
+                    options: ["99", "114", "120", "130"],
+                    correct: 1,
+                    hint: "C'est le nombre complet des sourates révélées"
+                },
+                {
+                    question: "Quelle est la première sourate du Coran ?",
+                    options: ["Al-Baqarah", "Al-Fatiha", "An-Nas", "Al-Ikhlas"],
+                    correct: 1,
+                    hint: "Elle est aussi appelée 'L'Ouvrante'"
+                },
+                {
+                    question: "Quelle sourate est connue comme le 'Cœur du Coran' ?",
+                    options: ["Yasin", "Al-Baqarah", "Ar-Rahman", "Al-Mulk"],
+                    correct: 0,
+                    hint: "C'est la sourate 36"
+                },
+                {
+                    question: "Combien de versets (ayat) contient la sourate Al-Fatiha ?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 2,
+                    hint: "Elle est récitée dans chaque rak'ah de la prière"
+                },
+                {
+                    question: "Quelle est la plus longue sourate du Coran ?",
+                    options: ["Al-Imran", "An-Nisa", "Al-Baqarah", "Al-Maidah"],
+                    correct: 2,
+                    hint: "Elle contient 286 versets"
+                }
+            ],
+            moyen: [
+                {
+                    question: "Quelle sourate est appelée 'L'Épouse du Coran' ?",
+                    options: ["Al-Baqarah", "Yasin", "Ar-Rahman", "Al-Mulk"],
+                    correct: 2,
+                    hint: "Elle répète le refrain 'Lequel donc des bienfaits de votre Seigneur nierez-vous ?'"
+                },
+                {
+                    question: "Combien de juz (parties) contient le Coran ?",
+                    options: ["25", "30", "35", "40"],
+                    correct: 1,
+                    hint: "Division traditionnelle pour la lecture en un mois"
+                },
+                {
+                    question: "Quelle sourate commence sans la basmalah ?",
+                    options: ["Al-Fatiha", "Al-Baqarah", "At-Tawbah", "Al-Ikhlas"],
+                    correct: 2,
+                    hint: "C'est la sourate 9"
+                },
+                {
+                    question: "Quel est le nombre total de versets dans le Coran ?",
+                    options: ["6,236", "6,666", "5,235", "7,451"],
+                    correct: 0,
+                    hint: "Selon la numérotation la plus courante"
+                },
+                {
+                    question: "Quelle sourate est considérée comme équivalente à un tiers du Coran ?",
+                    options: ["Al-Fatiha", "Al-Ikhlas", "Al-Falaq", "An-Nas"],
+                    correct: 1,
+                    hint: "Elle parle de l'unicité d'Allah"
+                }
+            ],
+            difficile: [
+                {
+                    question: "Quelle sourate contient le verset du Trône (Ayat al-Kursi) ?",
+                    options: ["Al-Baqarah (v.255)", "Al-Imran (v.18)", "An-Nisa (v.136)", "Al-Maidah (v.3)"],
+                    correct: 0,
+                    hint: "C'est dans la deuxième sourate"
+                },
+                {
+                    question: "Quelle est la seule sourate où le nom 'Allah' n'apparaît pas ?",
+                    options: ["Al-Asr", "Al-Kawthar", "Al-Qadr", "An-Nasr"],
+                    correct: 1,
+                    hint: "C'est la plus courte sourate avec 3 versets"
+                },
+                {
+                    question: "Combien de sourates commencent par des lettres disjointes (huruf muqatta'at) ?",
+                    options: ["25", "29", "33", "37"],
+                    correct: 1,
+                    hint: "Exemple: Alif-Lâm-Mîm"
+                },
+                {
+                    question: "Quelle sourate est nommée d'après une femme ?",
+                    options: ["Al-Mujadila", "Maryam", "An-Nisa", "Toutes ces réponses"],
+                    correct: 3,
+                    hint: "Plusieurs sourates portent des noms de femmes"
+                },
+                {
+                    question: "Quel est le verset le plus long du Coran ?",
+                    options: ["Al-Baqarah 2:282", "Al-Baqarah 2:255", "An-Nisa 4:11", "Al-Maidah 5:3"],
+                    correct: 0,
+                    hint: "Il traite des dettes et des transactions"
+                }
+            ]
+        };
+
+        // Démarrer le quiz
+        function startQuiz(level) {
+            quizData = {
+                currentLevel: level,
+                questions: [...questionDatabase[level]],
+                currentQuestionIndex: 0,
+                userAnswers: [],
+                score: 0,
+                startTime: new Date(),
+                timerInterval: null
+            };
+
+            // Mélanger les questions
+            quizData.questions = shuffleArray(quizData.questions).slice(0, 5);
+
+            document.getElementById('quiz-start').classList.add('hidden');
+            document.getElementById('quiz-in-progress').classList.remove('hidden');
+            document.getElementById('quiz-level').textContent = `Niveau : ${level.charAt(0).toUpperCase() + level.slice(1)}`;
+            document.getElementById('total-questions').textContent = quizData.questions.length;
+
+            startTimer();
+            displayCurrentQuestion();
+        }
+
+        // Afficher la question actuelle
+        function displayCurrentQuestion() {
+            const question = quizData.questions[quizData.currentQuestionIndex];
+            const progress = ((quizData.currentQuestionIndex + 1) / quizData.questions.length) * 100;
+
+            // Mettre à jour l'interface
+            document.getElementById('current-question').textContent = quizData.currentQuestionIndex + 1;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('quiz-score').textContent = quizData.score;
+
+            // Afficher le texte arabe si disponible
+            const arabicElement = document.getElementById('question-arabic');
+            if (question.arabic) {
+                arabicElement.textContent = question.arabic;
+                arabicElement.classList.remove('hidden');
+            } else {
+                arabicElement.classList.add('hidden');
+            }
+
+            // Afficher l'indice si disponible
+            const hintElement = document.getElementById('question-hint');
+            if (question.hint) {
+                hintElement.textContent = `💡 ${question.hint}`;
+                hintElement.classList.remove('hidden');
+            } else {
+                hintElement.classList.add('hidden');
+            }
+
+            // Générer les options
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'p-4 bg-gray-50 rounded-lg text-left hover:bg-emerald-50 hover:border-emerald-300 border-2 border-transparent transition-all duration-200';
+                button.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center font-semibold text-gray-600">
+                            ${String.fromCharCode(65 + index)}
+                        </div>
+                        <span class="text-gray-800">${option}</span>
+                    </div>
+                `;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+
+            // Gérer les boutons de navigation
+            document.getElementById('prev-question').disabled = quizData.currentQuestionIndex === 0;
+            
+            const nextBtn = document.getElementById('next-question');
+            const submitBtn = document.getElementById('submit-quiz');
+            
+            if (quizData.currentQuestionIndex === quizData.questions.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+
+            // Restaurer la sélection précédente si elle existe
+            const previousAnswer = quizData.userAnswers[quizData.currentQuestionIndex];
+            if (previousAnswer !== undefined) {
+                selectAnswer(previousAnswer, true);
+            }
+        }
+
+        // Sélectionner une réponse
+        function selectAnswer(optionIndex, isRestoring = false) {
+            const options = document.querySelectorAll('#quiz-options button');
+            
+            // Réinitialiser tous les boutons
+            options.forEach(btn => {
+                btn.classList.remove('bg-emerald-100', 'border-emerald-500', 'bg-red-100', 'border-red-500', 'bg-green-100', 'border-green-500');
+            });
+
+            if (!isRestoring) {
+                // Enregistrer la réponse
+                quizData.userAnswers[quizData.currentQuestionIndex] = optionIndex;
+                
+                // Vérifier si la réponse est correcte
+                const question = quizData.questions[quizData.currentQuestionIndex];
+                if (optionIndex === question.correct) {
+                    quizData.score += 10;
+                    document.getElementById('quiz-score').textContent = quizData.score;
+                }
+            }
+
+            // Mettre en évidence la sélection
+            options[optionIndex].classList.add('bg-emerald-100', 'border-emerald-500');
+        }
+
+        // Navigation
+        function nextQuestion() {
+            if (quizData.currentQuestionIndex < quizData.questions.length - 1) {
+                quizData.currentQuestionIndex++;
+                displayCurrentQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (quizData.currentQuestionIndex > 0) {
+                quizData.currentQuestionIndex--;
+                displayCurrentQuestion();
+            }
+        }
+
+        // Timer
+        function startTimer() {
+            quizData.startTime = new Date();
+            quizData.timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = Math.floor((now - quizData.startTime) / 1000);
+            const minutes = Math.floor(diff / 60).toString().padStart(2, '0');
+            const seconds = (diff % 60).toString().padStart(2, '0');
+            document.getElementById('quiz-timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        function stopTimer() {
+            if (quizData.timerInterval) {
+                clearInterval(quizData.timerInterval);
+            }
+        }
+
+        // Soumettre le quiz
+        function submitQuiz() {
+            stopTimer();
+            
+            const timeTaken = document.getElementById('quiz-timer').textContent;
+            const correctAnswers = quizData.userAnswers.filter((answer, index) => 
+                answer === quizData.questions[index].correct
+            ).length;
+            
+            const successRate = Math.round((correctAnswers / quizData.questions.length) * 100);
+
+            // Afficher les résultats
+            document.getElementById('quiz-in-progress').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            
+            document.getElementById('final-score').textContent = quizData.score;
+            document.getElementById('correct-answers').textContent = correctAnswers;
+            document.getElementById('time-taken').textContent = timeTaken;
+            document.getElementById('success-rate').textContent = `${successRate}%`;
+
+            // Message personnalisé selon le score
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            const resultIcon = document.getElementById('result-icon');
+
+            if (successRate >= 80) {
+                resultTitle.textContent = 'Excellent !';
+                resultMessage.textContent = 'Vous avez une excellente connaissance du Coran. Ma sha Allah !';
+                resultIcon.textContent = '🏆';
+            } else if (successRate >= 60) {
+                resultTitle.textContent = 'Très bien !';
+                resultMessage.textContent = 'Bonne performance ! Continuez à apprendre et à vous améliorer.';
+                resultIcon.textContent = '⭐';
+            } else if (successRate >= 40) {
+                resultTitle.textContent = 'Pas mal !';
+                resultMessage.textContent = 'Vous avez des bases solides. Poursuivez vos efforts !';
+                resultIcon.textContent = '🙂';
+            } else {
+                resultTitle.textContent = 'Continuez à apprendre !';
+                resultMessage.textContent = 'Chaque effort compte. Le Coran est une mer de connaissances infinie.';
+                resultIcon.textContent = '📚';
+            }
+        }
+
+        // Fin du quiz
+        function endQuiz() {
+            if (confirm('Voulez-vous vraiment quitter le quiz ? Votre progression sera perdue.')) {
+                stopTimer();
+                document.getElementById('quiz-in-progress').classList.add('hidden');
+                document.getElementById('quiz-start').classList.remove('hidden');
+            }
+        }
+
+        // Redémarrer le quiz
+        function restartQuiz() {
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('answer-review').classList.add('hidden');
+            startQuiz(quizData.currentLevel);
+        }
+
+        // Afficher les révisions
+        function showAnswerReview() {
+            const reviewContainer = document.getElementById('review-questions');
+            reviewContainer.innerHTML = '';
+
+            quizData.questions.forEach((question, index) => {
+                const userAnswer = quizData.userAnswers[index];
+                const isCorrect = userAnswer === question.correct;
+                
+                const reviewItem = document.createElement('div');
+                reviewItem.className = `bg-white rounded-lg shadow-md p-6 border-l-4 ${isCorrect ? 'border-green-500' : 'border-red-500'}`;
+                
+                reviewItem.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="font-semibold text-gray-800">Question ${index + 1}</h4>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                        </span>
+                    </div>
+                    <p class="text-gray-700 mb-4">${question.question}</p>
+                    <div class="space-y-2">
+                        <div class="text-sm text-gray-600">Votre réponse : <span class="font-medium ${isCorrect ? 'text-green-600' : 'text-red-600'}">${question.options[userAnswer]}</span></div>
+                        ${!isCorrect ? `<div class="text-sm text-gray-600">Bonne réponse : <span class="font-medium text-green-600">${question.options[question.correct]}</span></div>` : ''}
+                    </div>
+                `;
+                
+                reviewContainer.appendChild(reviewItem);
+            });
+
+            document.getElementById('answer-review').classList.remove('hidden');
+        }
+
+        // Retour au menu
+        function exitToMenu() {
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-start').classList.remove('hidden');
+        }
+
+        // Utilitaires
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Section Quiz chargée et prête !');
+        });
+    </script>
+
+    <style>
+        .font-arabic {
+            font-family: 'Traditional Arabic', 'Scheherazade', 'Lateef', serif;
+        }
+        
+        #quiz-options button:hover {
+            transform: translateY(-2px);
+        }
+        
+        #quiz-options button:active {
+            transform: translateY(0);
+        }
+    </style>
                             </div>
                         </div>
                     </section>
