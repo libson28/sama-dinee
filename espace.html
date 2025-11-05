@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <script src="https://static.readdy.ai/static/e.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Espace Personnel - Plateforme d'Apprentissage du Coran</title>
+        <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+        <script>tailwind.config={theme:{extend:{colors:{primary:'#22c55e',secondary:'#16a34a'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}},darkMode:'class'}</script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+        <style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.arabic-text { font-family: 'Amiri', serif; direction: rtl; }
+.pattern-bg {
+background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.05'%3E%3Cpath d='M30 30l15-15v30l-15-15zm-15 0L0 15v30l15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.dark .pattern-bg {
+background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.08'%3E%3Cpath d='M30 30l15-15v30l-15-15zm-15 0L0 15v30l15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.dark {
+--tw-bg-opacity: 1;
+background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+}
+.glass-effect {
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+}
+.mobile-tab-bar {
+box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+.mobile-content {
+padding-bottom: 100px;
+}
+@media (max-width: 768px) {
+.mobile-content {
+padding-bottom: 120px;
+}
+}
+
+@media screen and (max-width: 767px) {
+    #videos, #dashboard, #audios, #quiz, #progress{
+        padding-bottom: 5rem !important;
+    }
+
+     #favorites{
+        padding-bottom: 7rem;
+     }
+}
+
+
+        </style>
+    </head>
+    <body class="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-emerald-900/5 dark:to-green-900/5 transition-colors duration-300">
+        <!-- En-tête -->
+        <header class="bg-white/80 dark:bg-gray-800/80 glass-effect shadow-lg border-b border-green-100 dark:border-green-900/50 sticky top-0 z-30">
+            <div class="px-4 md:px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="font-['Pacifico'] text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"><img src="logo.png" style="width: 150px;" alt=""></div>
+                       
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <!-- Switch Mode -->
+                        <div class="flex items-center">
+                            <button id="theme-toggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                                <span class="sr-only">Basculer le thème</span>
+                                <span id="theme-toggle-dot" class="inline-block h-4 w-4 transform rounded-full bg-white shadow-lg transition-transform translate-x-1 dark:translate-x-6"></span>
+                            </button>
+                        </div>
+                        <!-- Notifications -->
+                        <button id="notifications-btn" class="relative w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            <i class="ri-notification-3-line text-gray-600 dark:text-gray-300"></i>
+                            <span class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center text-xs text-white">3</span>
+                        </button>
+                        <!-- Paramètres -->
+                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            <i class="ri-settings-3-line text-gray-600 dark:text-gray-300"></i>
+                        </button>
+                        <!-- Déconnexion -->
+                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors">
+                            <i class="ri-logout-box-line text-red-600 dark:text-red-400"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Navigation principale - Desktop -->
+        <nav class="hidden md:block bg-white/60 dark:bg-gray-800/60 glass-effect border-b border-green-100/50 dark:border-green-900/30">
+            <div class="px-6">
+                <div class="flex space-x-8 overflow-x-auto">
+                    <button class="tab-btn active whitespace-nowrap py-4 px-3 border-b-3 border-primary text-primary font-semibold bg-primary/5 dark:bg-primary/10 rounded-t-lg" data-tab="dashboard">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-dashboard-3-line"></i>
+                            <span>Tableau de bord</span>
+                        </div>
+                    </button>
+                    <button class="tab-btn whitespace-nowrap py-4 px-3 border-b-3 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 rounded-t-lg transition-all" data-tab="videos">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-play-circle-line"></i>
+                            <span>Cours vidéo</span>
+                        </div>
+                    </button>
+                    <button class="tab-btn whitespace-nowrap py-4 px-3 border-b-3 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 rounded-t-lg transition-all" data-tab="audios">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-headphone-line"></i>
+                            <span>Audios & Traductions</span>
+                        </div>
+                    </button>
+                    <button class="tab-btn whitespace-nowrap py-4 px-3 border-b-3 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 rounded-t-lg transition-all" data-tab="quiz">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-question-answer-line"></i>
+                            <span>Quiz</span>
+                        </div>
+                    </button>
+                    <button class="tab-btn whitespace-nowrap py-4 px-3 border-b-3 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 rounded-t-lg transition-all" data-tab="favorites">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-heart-line"></i>
+                            <span>Favoris</span>
+                        </div>
+                    </button>
+                    <button class="tab-btn whitespace-nowrap py-4 px-3 border-b-3 border-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 rounded-t-lg transition-all" data-tab="progress">
+                        <div class="flex items-center space-x-2">
+                            <i class="ri-progress-3-line"></i>
+                            <span>Progression</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <!-- Navigation mobile - Bottom Tabs -->
+        <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect mobile-tab-bar border-t border-green-100 dark:border-green-900/50 z-40">
+            <div class="flex justify-between items-center px-2 py-2">
+                <button class="mobile-tab-btn active flex-1 flex flex-col items-center py-2 px-1 text-primary" data-tab="dashboard">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-dashboard-3-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Accueil</span>
+                </button>
+                <button class="mobile-tab-btn flex-1 flex flex-col items-center py-2 px-1 text-gray-500 dark:text-gray-400" data-tab="videos">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-play-circle-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Vidéos</span>
+                </button>
+                <button class="mobile-tab-btn flex-1 flex flex-col items-center py-2 px-1 text-gray-500 dark:text-gray-400" data-tab="audios">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-headphone-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Audios</span>
+                </button>
+                <button class="mobile-tab-btn flex-1 flex flex-col items-center py-2 px-1 text-gray-500 dark:text-gray-400" data-tab="quiz">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-question-answer-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Quiz</span>
+                </button>
+                <button class="mobile-tab-btn flex-1 flex flex-col items-center py-2 px-1 text-gray-500 dark:text-gray-400" data-tab="favorites">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-heart-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Favoris</span>
+                </button>
+                <button class="mobile-tab-btn flex-1 flex flex-col items-center py-2 px-1 text-gray-500 dark:text-gray-400" data-tab="progress">
+                    <div class="w-6 h-6 flex items-center justify-center mb-1">
+                        <i class="ri-progress-3-line text-lg"></i>
+                    </div>
+                    <span class="text-xs font-medium">Stats</span>
+                </button>
+            </div>
+        </nav>
+        <!-- Contenu principal -->
+        <main class="p-4 md:p-6 mobile-content">
+           
+            <!-- Tableau de bord -->
+            <div id="dashboard" class="tab-content">
+                 <!-- Section d'accueil -->
+            <div class="mb-6 md:mb-8 bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-900/30 dark:via-emerald-900/20 dark:to-teal-900/30 rounded-3xl p-6 md:p-8 pattern-bg shadow-xl border border-green-200/50 dark:border-green-800/50">
+                <div class="flex flex-col lg:flex-row items-center justify-between">
+                    <div class="flex-1 text-center lg:text-left mb-6 lg:mb-0">
+                        <h2 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-emerald-700 dark:from-emerald-300 dark:to-green-300 bg-clip-text text-transparent mb-3">Assalamu Alaikum, Libasse</h2>
+                        <p class="text-lg md:text-xl arabic-text text-green-700 dark:text-emerald-400 mb-4 font-medium">السلام عليكم ورحمة الله وبركاته</p>
+                        <blockquote class="text-gray-700 dark:text-gray-300 italic text-sm md:text-base leading-relaxed bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border-l-4 border-primary">
+                            "Et Nous avons facilité le Coran pour la méditation. Y a-t-il quelqu'un pour réfléchir ?" - Sourate Al-Qamar
+                        </blockquote>
+                    </div>
+                    <div class="hidden lg:block flex-shrink-0">
+                        <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20patterns%20with%20Quran%20book%20and%20prayer%20beads%20on%20elegant%20green%20background%2C%20soft%20lighting%2C%20peaceful%20atmosphere%2C%20high%20quality%20photography&width=300&height=200&seq=hero1&orientation=landscape" alt="Coran" class="rounded-2xl object-cover w-80 h-56 shadow-2xl border-4 border-white/50 dark:border-gray-800/50">
+                    </div>
+                </div>
+            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Progression globale -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Progression</h3>
+                            <div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-lg">
+                                <i class="ri-progress-3-line text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <svg class="w-24 h-24 transform -rotate-90">
+                                <circle
+                                    cx="48"
+                                    cy="48"
+                                    r="40"
+                                    stroke="currentColor"
+                                    stroke-width="8"
+                                    fill="none"
+                                    class="text-gray-200 dark:text-gray-700"
+                                />
+                                <circle
+                                    cx="48"
+                                    cy="48"
+                                    r="40"
+                                    stroke="currentColor"
+                                    stroke-width="8"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    class="text-primary"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="75.36"
+                                />
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-xl font-bold text-gray-900 dark:text-white">70%</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 text-center">15 sourates complétées</p>
+                    </div>
+                    <!-- Cours en cours -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Cours actuel</h3>
+                            <div class="w-8 h-8 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                <i class="ri-play-circle-line text-blue-600 dark:text-blue-400"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">Sourate Al-Baqarah</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Verset 255 - Ayat Al-Kursi</p>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">45% complété</p>
+                    </div>
+                    <!-- Quiz recommandé -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Quiz suggéré</h3>
+                            <div class="w-8 h-8 flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                                <i class="ri-question-answer-line text-orange-600 dark:text-orange-400"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">Niveau Intermédiaire</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sourates courtes</p>
+                        <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 !rounded-button text-sm font-medium whitespace-nowrap transition-colors">
+                            Commencer le quiz
+                        </button>
+                    </div>
+                    <!-- Dernière activité -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Dernière activité</h3>
+                            <div class="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-lg">
+                                <i class="ri-time-line text-green-600 dark:text-green-400"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Il y a 2 heures</p>
+                        <p class="font-medium text-gray-900 dark:text-white">Quiz Débutant complété</p>
+                        <p class="text-sm text-green-600 dark:text-green-400">Score: 18/20</p>
+                    </div>
+                </div>
+                <!-- Derniers ajouts -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Derniers ajouts</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="group cursor-pointer">
+                            <div class="relative overflow-hidden rounded-lg mb-3">
+                                <img src="https://readdy.ai/api/search-image?query=Beautiful%20mosque%20interior%20with%20Quran%20recitation%20setup%2C%20warm%20golden%20lighting%2C%20peaceful%20Islamic%20architecture%2C%20modern%20video%20recording%20equipment%2C%20high%20quality%20photography&width=300&height=200&seq=video1&orientation=landscape" alt="Nouvelle vidéo" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                    <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                        <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">15:30</span>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-1">Récitation de Sourate Ar-Rahman</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Par Sheikh Abdullah Al-Matrood</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div class="relative overflow-hidden rounded-lg mb-3">
+                                <img src="https://readdy.ai/api/search-image?query=Islamic%20calligraphy%20and%20Arabic%20text%20with%20beautiful%20geometric%20patterns%2C%20educational%20content%2C%20warm%20lighting%2C%20peaceful%20learning%20environment%2C%20high%20quality%20photography&width=300&height=200&seq=video2&orientation=landscape" alt="Nouvelle vidéo" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                    <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                        <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">22:15</span>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-1">Tafsir Sourate Al-Fatiha</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Explication détaillée</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div class="relative overflow-hidden rounded-lg mb-3">
+                                <img src="https://readdy.ai/api/search-image?query=Peaceful%20Islamic%20learning%20environment%20with%20Quran%20and%20prayer%20beads%2C%20soft%20natural%20lighting%2C%20educational%20setting%2C%20high%20quality%20photography&width=300&height=200&seq=video3&orientation=landscape" alt="Nouvelle vidéo" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                    <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                        <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                    </div>
+                                </div>
+                                <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">18:45</span>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-1">Règles de Tajwid</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Leçon 5 - Les prolongations</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Statistiques de la semaine -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Activité de la semaine</h3>
+                    <div id="weekly-chart" class="h-64"></div>
+                </div>
+            </div>
+            <!-- Cours vidéo -->
+            <div id="videos" class="tab-content hidden">
+                <div class="flex flex-col md:flex-row gap-6 mb-6">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <input type="text" placeholder="Rechercher une sourate, un récitateur..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <i class="ri-search-line text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <select class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
+                            <option>Toutes les sourates</option>
+                            <option>Al-Fatiha</option>
+                            <option>Al-Baqarah</option>
+                            <option>Al-Imran</option>
+                        </select>
+                        <select class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-8">
+                            <option>Tous niveaux</option>
+                            <option>Débutant</option>
+                            <option>Intermédiaire</option>
+                            <option>Avancé</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
+                        <div class="relative">
+                            <img src="https://readdy.ai/api/search-image?query=Beautiful%20mosque%20interior%20with%20Islamic%20calligraphy%20and%20Quran%20recitation%20setup%2C%20warm%20golden%20lighting%2C%20peaceful%20atmosphere%2C%20educational%20video%20content%2C%20high%20quality%20photography&width=400&height=250&seq=course1&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
+                                    <i class="ri-play-fill text-gray-800 text-2xl"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 bg-green-600 text-white text-xs px-2 py-1 rounded">Débutant</span>
+                            <span class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">25:30</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sourate Al-Fatiha - Récitation complète</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sheikh Mishary Rashid Al-Afasy</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
+                                        <div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Terminé</span>
+                                </div>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                                    <i class="ri-heart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
+                        <div class="relative">
+                            <img src="https://readdy.ai/api/search-image?query=Islamic%20educational%20content%20with%20Arabic%20calligraphy%20and%20Quran%20verses%2C%20peaceful%20learning%20environment%2C%20warm%20lighting%2C%20modern%20educational%20setup%2C%20high%20quality%20photography&width=400&height=250&seq=course2&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
+                                    <i class="ri-play-fill text-gray-800 text-2xl"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 bg-orange-600 text-white text-xs px-2 py-1 rounded">Intermédiaire</span>
+                            <span class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">45:15</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sourate Al-Baqarah - Ayat Al-Kursi</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sheikh Abdul Rahman Al-Sudais</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
+                                        <div class="bg-primary h-1.5 rounded-full" style="width: 65%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">65%</span>
+                                </div>
+                                <button class="w-8 h-8 flex items-center justify-center text-red-500">
+                                    <i class="ri-heart-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group cursor-pointer">
+                        <div class="relative">
+                            <img src="https://readdy.ai/api/search-image?query=Advanced%20Islamic%20studies%20with%20Quran%20and%20Islamic%20geometric%20patterns%2C%20scholarly%20environment%2C%20warm%20lighting%2C%20educational%20content%2C%20high%20quality%20photography&width=400&height=250&seq=course3&orientation=landscape" alt="Cours" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                <div class="w-16 h-16 flex items-center justify-center bg-white/90 rounded-full">
+                                    <i class="ri-play-fill text-gray-800 text-2xl"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 bg-red-600 text-white text-xs px-2 py-1 rounded">Avancé</span>
+                            <span class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">1:12:45</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Tafsir Sourate Yasin</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Dr. Omar Suleiman</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 flex-1">
+                                        <div class="bg-primary h-1.5 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">Nouveau</span>
+                                </div>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                                    <i class="ri-heart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Audios & Traductions -->
+            <div id="audios" class="tab-content hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Lecteur Audio</h3>
+                        <div class="flex items-center space-x-2">
+                            <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors">
+                                <i class="ri-heart-line"></i>
+                            </button>
+                            <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors">
+                                <i class="ri-download-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://readdy.ai/api/search-image?query=Beautiful%20Quran%20cover%20with%20Islamic%20geometric%20patterns%20and%20Arabic%20calligraphy%2C%20elegant%20design%2C%20warm%20colors%2C%20high%20quality%20photography&width=100&height=100&seq=audio1&orientation=squarish" alt="Sourate" class="w-16 h-16 rounded-lg object-cover">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white">Sourate Al-Mulk</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Sheikh Maher Al-Muaiqly</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <span>2:15</span>
+                            <span>8:32</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 cursor-pointer">
+                            <div class="bg-primary h-2 rounded-full" style="width: 27%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center space-x-6">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                            <i class="ri-skip-back-line text-xl"></i>
+                        </button>
+                        <button class="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full hover:bg-secondary transition-colors">
+                            <i class="ri-pause-line text-xl"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                            <i class="ri-skip-forward-line text-xl"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                            <i class="ri-repeat-line text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Texte arabe -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Texte Arabe</h3>
+                        <div class="arabic-text text-xl leading-loose text-gray-800 dark:text-gray-200 space-y-4">
+                            <p class="p-3 bg-primary/5 dark:bg-primary/10 rounded-lg border-r-4 border-primary">
+                                تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ
+                            </p>
+                            <p class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
+                                الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ الْعَزِيزُ الْغَفُورُ
+                            </p>
+                            <p class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
+                                الَّذِي خَلَقَ سَبْعَ سَمَاوَاتٍ طِبَاقًا ۖ مَّا تَرَىٰ فِي خَلْقِ الرَّحْمَٰنِ مِن تَفَاوُتٍ
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Traduction française -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Traduction Française</h3>
+                        <div class="text-gray-700 dark:text-gray-300 space-y-4">
+                            <p class="p-3 bg-primary/5 dark:bg-primary/10 rounded-lg border-l-4 border-primary">
+                                <span class="font-semibold text-primary">1.</span>
+                                Béni soit Celui qui détient la royauté et qui est Omnipotent.
+                            </p>
+                            <p class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
+                                <span class="font-semibold text-gray-600 dark:text-gray-400">2.</span>
+                                Celui qui a créé la mort et la vie afin de vous éprouver [et de voir] qui de vous est le meilleur en œuvre, et c'est Lui le Puissant, le Pardonneur.
+                            </p>
+                            <p class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
+                                <span class="font-semibold text-gray-600 dark:text-gray-400">3.</span>
+                                Celui qui a créé sept cieux superposés sans que tu voies de disproportion en la création du Tout Miséricordieux.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Liste des sourates -->
+                <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Toutes les sourates</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg text-sm font-semibold">1</div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Fatiha</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 arabic-text">الفاتحة</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">7 versets</span>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="ri-play-line"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="ri-heart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold">2</div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Baqarah</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 arabic-text">البقرة</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">286 versets</span>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="ri-play-line"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center text-red-500 opacity-0 group-hover:opacity-100">
+                                    <i class="ri-heart-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer group">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold">3</div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Imran</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 arabic-text">آل عمران</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">200 versets</span>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="ri-play-line"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                    <i class="ri-heart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Quiz -->
+            <div id="quiz" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- Débutant -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-green-200 dark:border-green-800">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Débutant</h3>
+                            <div class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-full">
+                                <i class="ri-seedling-line text-green-600 dark:text-green-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Questions de base sur les sourates courtes et les fondamentaux</p>
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progression</span>
+                                <span class="font-semibold text-green-600 dark:text-green-400">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap transition-colors">
+                            Continuer le quiz
+                        </button>
+                    </div>
+                    <!-- Intermédiaire -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-orange-200 dark:border-orange-800">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Intermédiaire</h3>
+                            <div class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 rounded-full">
+                                <i class="ri-fire-line text-orange-600 dark:text-orange-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Questions sur le Tafsir et les règles de récitation</p>
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progression</span>
+                                <span class="font-semibold text-orange-600 dark:text-orange-400">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-orange-600 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap transition-colors">
+                            Commencer le quiz
+                        </button>
+                    </div>
+                    <!-- Avancé -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-red-200 dark:border-red-800">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Avancé</h3>
+                            <div class="w-12 h-12 flex items-center justify-center bg-red-100 dark:bg-red-900/30 rounded-full">
+                                <i class="ri-trophy-line text-red-600 dark:text-red-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Questions complexes sur l'exégèse et l'histoire</p>
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between text-sm mb-2">
+                                <span class="text-gray-600 dark:text-gray-400">Progression</span>
+                                <span class="font-semibold text-red-600 dark:text-red-400">12%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-red-600 h-2 rounded-full" style="width: 12%"></div>
+                            </div>
+                        </div>
+                        <button class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap transition-colors">
+                            Débloquer le niveau
+                        </button>
+                    </div>
+                </div>
+                <!-- Historique des quiz -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Historique récent</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-green-600 text-white rounded-lg">
+                                    <i class="ri-check-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Quiz Débutant - Sourates courtes</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Complété il y a 2 heures</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-green-600 dark:text-green-400">18/20</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">90%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-orange-600 text-white rounded-lg">
+                                    <i class="ri-time-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Quiz Intermédiaire - Règles de Tajwid</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">En cours</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-orange-600 dark:text-orange-400">7/15</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">47%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-gray-400 text-white rounded-lg">
+                                    <i class="ri-close-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Quiz Débutant - Al-Fatiha</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Complété hier</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-gray-600 dark:text-gray-400">12/20</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">60%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Badges et récompenses -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Badges débloqués</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                            <div class="w-16 h-16 flex items-center justify-center bg-yellow-500 text-white rounded-full mx-auto mb-2">
+                                <i class="ri-medal-line text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white text-sm">Premier Quiz</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Complété</p>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                            <div class="w-16 h-16 flex items-center justify-center bg-green-500 text-white rounded-full mx-auto mb-2">
+                                <i class="ri-star-line text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white text-sm">Score Parfait</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">20/20</p>
+                        </div>
+                        <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                            <div class="w-16 h-16 flex items-center justify-center bg-blue-500 text-white rounded-full mx-auto mb-2">
+                                <i class="ri-fire-line text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white text-sm">Série de 7</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Jours consécutifs</p>
+                        </div>
+                        <div class="text-center p-4 bg-gray-100 dark:bg-gray-700 rounded-lg opacity-50">
+                            <div class="w-16 h-16 flex items-center justify-center bg-gray-400 text-white rounded-full mx-auto mb-2">
+                                <i class="ri-trophy-line text-2xl"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-900 dark:text-white text-sm">Maître</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400">Verrouillé</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Favoris -->
+            <div id="favorites" class="tab-content hidden">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">Mes Favoris</h2>
+                    <!-- Filtres Desktop -->
+                    <div class="hidden md:flex space-x-2">
+                        <button class="filter-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
+                            Tout
+                        </button>
+                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
+                            Vidéos
+                        </button>
+                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
+                            Audios
+                        </button>
+                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
+                            Versets
+                        </button>
+                    </div>
+                </div>
+                <!-- Filtres Mobile - Barre fixe en bas -->
+                <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
+                    <div class="flex space-x-2 overflow-x-auto">
+                        <button class="mobile-filter-btn active flex-shrink-0 px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
+                            <div class="flex items-center space-x-2">
+                                <i class="ri-apps-line"></i>
+                                <span>Tout</span>
+                            </div>
+                        </button>
+                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
+                            <div class="flex items-center space-x-2">
+                                <i class="ri-play-circle-line"></i>
+                                <span>Vidéos</span>
+                            </div>
+                        </button>
+                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
+                            <div class="flex items-center space-x-2">
+                                <i class="ri-headphone-line"></i>
+                                <span>Audios</span>
+                            </div>
+                        </button>
+                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
+                            <div class="flex items-center space-x-2">
+                                <i class="ri-book-open-line"></i>
+                                <span>Versets</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Vidéo favorite -->
+                    <div class="favorite-item videos bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group">
+                        <div class="relative">
+                            <img src="https://readdy.ai/api/search-image?query=Beautiful%20mosque%20interior%20with%20Quran%20recitation%2C%20peaceful%20Islamic%20learning%20environment%2C%20warm%20lighting%2C%20educational%20content%2C%20high%20quality%20photography&width=400&height=200&seq=fav1&orientation=landscape" alt="Vidéo favorite" class="w-full h-40 object-cover">
+                            <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                    <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                </div>
+                            </div>
+                            <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sourate Ar-Rahman</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Sheikh Mishary Al-Afasy</p>
+                        </div>
+                    </div>
+                    <!-- Audio favori -->
+                    <div class="favorite-item audios bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-xl">
+                                <i class="ri-music-2-line text-primary text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Sourate Al-Mulk</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Sheikh Abdul Rahman Al-Sudais</p>
+                            </div>
+                            <button class="w-8 h-8 flex items-center justify-center text-red-500">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full">
+                                <i class="ri-play-line"></i>
+                            </button>
+                            <div class="flex-1">
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
+                                    <div class="bg-primary h-1 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">8:32</span>
+                        </div>
+                    </div>
+                    <!-- Verset favori -->
+                    <div class="favorite-item verses bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg text-sm font-semibold">
+                                2:255
+                            </div>
+                            <button class="w-8 h-8 flex items-center justify-center text-red-500">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text text-lg leading-relaxed text-gray-800 dark:text-gray-200 mb-4">
+                            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            Allah ! Point de divinité à part Lui, le Vivant, Celui qui subsiste par lui-même...
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Ayat Al-Kursi</p>
+                    </div>
+                    <!-- Plus de favoris -->
+                    <div class="favorite-item videos bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group">
+                        <div class="relative">
+                            <img src="https://readdy.ai/api/search-image?query=Islamic%20calligraphy%20and%20Quran%20study%20with%20beautiful%20Arabic%20text%2C%20peaceful%20learning%20environment%2C%20warm%20colors%2C%20educational%20setting%2C%20high%20quality%20photography&width=400&height=200&seq=fav2&orientation=landscape" alt="Vidéo favorite" class="w-full h-40 object-cover">
+                            <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                    <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                </div>
+                            </div>
+                            <button class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Tafsir Sourate Yasin</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Dr. Omar Suleiman</p>
+                        </div>
+                    </div>
+                    <div class="favorite-item audios bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-xl">
+                                <i class="ri-music-2-line text-secondary text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Sourate Al-Kahf</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Sheikh Saad Al-Ghamdi</p>
+                            </div>
+                            <button class="w-8 h-8 flex items-center justify-center text-red-500">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button class="w-10 h-10 flex items-center justify-center bg-secondary text-white rounded-full">
+                                <i class="ri-play-line"></i>
+                            </button>
+                            <div class="flex-1">
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
+                                    <div class="bg-secondary h-1 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">25:18</span>
+                        </div>
+                    </div>
+                    <div class="favorite-item verses bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-10 h-10 flex items-center justify-center bg-secondary text-white rounded-lg text-sm font-semibold">
+                                3:26
+                            </div>
+                            <button class="w-8 h-8 flex items-center justify-center text-red-500">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        </div>
+                        <div class="arabic-text text-lg leading-relaxed text-gray-800 dark:text-gray-200 mb-4">
+                            قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ تُؤْتِي الْمُلْكَ مَن تَشَاءُ
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            Dis : "Ô Allah, Maître de l'autorité absolue. Tu donnes l'autorité à qui Tu veux..."
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Sourate Al-Imran</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Progression -->
+            <div id="progress" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Statistiques générales -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Statistiques générales</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Sourates complétées</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">15/114</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Temps d'étude total</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">47h 32m</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Quiz complétés</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">23</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Score moyen</span>
+                                <span class="font-semibold text-primary">82%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600 dark:text-gray-400">Série actuelle</span>
+                                <span class="font-semibold text-orange-600 dark:text-orange-400">7 jours</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Objectifs -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Objectifs du mois</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Étudier 20h</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">16h/20h</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Compléter 3 sourates</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">2/3</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-secondary h-2 rounded-full" style="width: 67%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Réussir 10 quiz</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">8/10</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Calendrier d'étude -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Calendrier d'étude</h3>
+                        <div class="grid grid-cols-7 gap-1 mb-4">
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">L</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">M</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">M</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">J</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">V</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">S</div>
+                            <div class="text-center text-xs text-gray-500 dark:text-gray-400 py-2">D</div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1">
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-primary text-white rounded">1</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-primary text-white rounded">2</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-primary text-white rounded">3</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-primary text-white rounded">4</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-primary text-white rounded">5</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">6</div>
+                            <div class="w-8 h-8 flex items-center justify-center text-xs bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">7</div>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-4">Série actuelle : 7 jours</p>
+                    </div>
+                </div>
+                <!-- Graphique de progression -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Progression mensuelle</h3>
+                    <div id="progress-chart" class="h-80"></div>
+                </div>
+                <!-- Progression par sourate -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Progression par sourate</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-green-600 text-white rounded-lg">
+                                    <i class="ri-check-line"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Fatiha</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">7 versets</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-green-600 dark:text-green-400">100%</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Complétée</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-lg text-sm">2</div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Baqarah</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">286 versets</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-blue-600 dark:text-blue-400">45%</p>
+                                <div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1 mt-1">
+                                    <div class="bg-blue-600 h-1 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 flex items-center justify-center bg-gray-400 text-white rounded-lg text-sm">3</div>
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Al-Imran</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">200 versets</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold text-gray-600 dark:text-gray-400">0%</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Non commencée</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Boîte de notifications -->
+        <div id="notifications-panel" class="fixed top-0 right-0 w-96 h-full bg-white dark:bg-gray-800 shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notifications</h3>
+                    <button id="close-notifications" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4 space-y-4 overflow-y-auto h-full pb-20">
+                <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full flex-shrink-0">
+                            <i class="ri-video-line text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900 dark:text-white">Nouveau cours disponible</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Tafsir Sourate Al-Kahf par Dr. Omar Suleiman</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Il y a 2 heures</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 flex items-center justify-center bg-green-500 text-white rounded-full flex-shrink-0">
+                            <i class="ri-trophy-line text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900 dark:text-white">Félicitations !</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Vous avez complété votre objectif hebdomadaire</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Il y a 1 jour</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border-l-4 border-orange-500">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 flex items-center justify-center bg-orange-500 text-white rounded-full flex-shrink-0">
+                            <i class="ri-time-line text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900 dark:text-white">Rappel d'étude</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Il est temps de réviser Sourate Al-Baqarah</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Il y a 2 jours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Overlay pour les notifications -->
+        <div id="notifications-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+        <script id="theme-toggle-script">
+document.addEventListener('DOMContentLoaded', function() {
+const themeToggle = document.getElementById('theme-toggle');
+const themeToggleDot = document.getElementById('theme-toggle-dot');
+const html = document.documentElement;
+const isDark = localStorage.getItem('theme') === 'dark' ||
+(!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+if (isDark) {
+html.classList.add('dark');
+themeToggleDot.classList.add('translate-x-6');
+themeToggleDot.classList.remove('translate-x-1');
+}
+themeToggle.addEventListener('click', function() {
+html.classList.toggle('dark');
+const isDarkMode = html.classList.contains('dark');
+if (isDarkMode) {
+themeToggleDot.classList.add('translate-x-6');
+themeToggleDot.classList.remove('translate-x-1');
+localStorage.setItem('theme', 'dark');
+} else {
+themeToggleDot.classList.remove('translate-x-6');
+themeToggleDot.classList.add('translate-x-1');
+localStorage.setItem('theme', 'light');
+}
+});
+});
+        </script>
+        <script id="tab-navigation-script">
+document.addEventListener('DOMContentLoaded', function() {
+const tabBtns = document.querySelectorAll('.tab-btn');
+const mobileTabBtns = document.querySelectorAll('.mobile-tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+function switchTab(targetTab) {
+// Reset all desktop tabs
+tabBtns.forEach(b => {
+b.classList.remove('active', 'border-primary', 'text-primary', 'bg-primary/5', 'dark:bg-primary/10');
+b.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+});
+// Reset all mobile tabs
+mobileTabBtns.forEach(b => {
+b.classList.remove('active', 'text-primary');
+b.classList.add('text-gray-500', 'dark:text-gray-400');
+});
+// Activate current desktop tab
+const activeDesktopTab = document.querySelector(`.tab-btn[data-tab="${targetTab}"]`);
+if (activeDesktopTab) {
+activeDesktopTab.classList.add('active', 'border-primary', 'text-primary', 'bg-primary/5', 'dark:bg-primary/10');
+activeDesktopTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+}
+// Activate current mobile tab
+const activeMobileTab = document.querySelector(`.mobile-tab-btn[data-tab="${targetTab}"]`);
+if (activeMobileTab) {
+activeMobileTab.classList.add('active', 'text-primary');
+activeMobileTab.classList.remove('text-gray-500', 'dark:text-gray-400');
+}
+// Show/hide content
+tabContents.forEach(content => {
+content.classList.add('hidden');
+});
+document.getElementById(targetTab).classList.remove('hidden');
+}
+// Desktop tabs
+tabBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+switchTab(this.dataset.tab);
+});
+});
+// Mobile tabs
+mobileTabBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+switchTab(this.dataset.tab);
+});
+});
+});
+        </script>
+        <script id="notifications-script">
+document.addEventListener('DOMContentLoaded', function() {
+const notificationsBtn = document.getElementById('notifications-btn');
+const notificationsPanel = document.getElementById('notifications-panel');
+const notificationsOverlay = document.getElementById('notifications-overlay');
+const closeNotifications = document.getElementById('close-notifications');
+function openNotifications() {
+notificationsPanel.classList.remove('translate-x-full');
+notificationsOverlay.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeNotificationsPanel() {
+notificationsPanel.classList.add('translate-x-full');
+notificationsOverlay.classList.add('hidden');
+document.body.style.overflow = 'auto';
+}
+notificationsBtn.addEventListener('click', openNotifications);
+closeNotifications.addEventListener('click', closeNotificationsPanel);
+notificationsOverlay.addEventListener('click', closeNotificationsPanel);
+});
+        </script>
+        <script id="favorites-filter-script">
+document.addEventListener('DOMContentLoaded', function() {
+const filterBtns = document.querySelectorAll('.filter-btn');
+const mobileFilterBtns = document.querySelectorAll('.mobile-filter-btn');
+const favoriteItems = document.querySelectorAll('.favorite-item');
+function applyFilter(filter) {
+// Reset desktop filters
+filterBtns.forEach(b => {
+b.classList.remove('active', 'bg-primary', 'text-white');
+b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+});
+// Reset mobile filters
+mobileFilterBtns.forEach(b => {
+b.classList.remove('active', 'bg-primary', 'text-white');
+b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+});
+// Activate current desktop filter
+const activeDesktopFilter = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+if (activeDesktopFilter) {
+activeDesktopFilter.classList.add('active', 'bg-primary', 'text-white');
+activeDesktopFilter.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+}
+// Activate current mobile filter
+const activeMobileFilter = document.querySelector(`.mobile-filter-btn[data-filter="${filter}"]`);
+if (activeMobileFilter) {
+activeMobileFilter.classList.add('active', 'bg-primary', 'text-white');
+activeMobileFilter.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+}
+// Filter items
+favoriteItems.forEach(item => {
+if (filter === 'all' || item.classList.contains(filter)) {
+item.style.display = 'block';
+} else {
+item.style.display = 'none';
+}
+});
+}
+// Desktop filters
+filterBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+applyFilter(this.dataset.filter);
+});
+});
+// Mobile filters
+mobileFilterBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+applyFilter(this.dataset.filter);
+});
+});
+});
+        </script>
+        <script id="charts-script">
+document.addEventListener('DOMContentLoaded', function() {
+// Graphique d'activité hebdomadaire
+const weeklyChart = echarts.init(document.getElementById('weekly-chart'));
+const weeklyOption = {
+animation: false,
+grid: { top: 0, right: 0, bottom: 0, left: 0 },
+xAxis: {
+type: 'category',
+data: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+axisLine: { show: false },
+axisTick: { show: false }
+},
+yAxis: {
+type: 'value',
+show: false
+},
+series: [{
+data: [45, 60, 30, 80, 55, 70, 85],
+type: 'line',
+smooth: true,
+symbol: 'none',
+lineStyle: { color: '#22c55e', width: 3 },
+areaStyle: {
+color: {
+type: 'linear',
+x: 0, y: 0, x2: 0, y2: 1,
+colorStops: [
+{ offset: 0, color: 'rgba(34, 197, 94, 0.1)' },
+{ offset: 1, color: 'rgba(34, 197, 94, 0.01)' }
+]
+}
+}
+}],
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+textStyle: { color: '#1f2937' }
+}
+};
+weeklyChart.setOption(weeklyOption);
+// Graphique de progression mensuelle
+const progressChart = echarts.init(document.getElementById('progress-chart'));
+const progressOption = {
+animation: false,
+grid: { top: 20, right: 20, bottom: 40, left: 40 },
+xAxis: {
+type: 'category',
+data: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+axisLine: { lineStyle: { color: '#e5e7eb' } },
+axisTick: { show: false }
+},
+yAxis: {
+type: 'value',
+axisLine: { show: false },
+axisTick: { show: false },
+splitLine: { lineStyle: { color: '#f3f4f6' } }
+},
+series: [
+{
+name: 'Heures d\'étude',
+type: 'bar',
+data: [12, 15, 18, 16],
+itemStyle: {
+color: '#57b5e7',
+borderRadius: [4, 4, 0, 0]
+}
+},
+{
+name: 'Quiz complétés',
+type: 'bar',
+data: [5, 7, 8, 6],
+itemStyle: {
+color: '#8dd3c7',
+borderRadius: [4, 4, 0, 0]
+}
+}
+],
+legend: {
+data: ['Heures d\'étude', 'Quiz complétés'],
+bottom: 0
+},
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.9)',
+textStyle: { color: '#1f2937' }
+}
+};
+progressChart.setOption(progressOption);
+// Redimensionner les graphiques lors du changement de taille de fenêtre
+window.addEventListener('resize', function() {
+weeklyChart.resize();
+progressChart.resize();
+});
+});
+        </script>
+    </body>
+</html>
