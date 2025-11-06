@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
@@ -51,45 +50,38 @@ padding-bottom: 120px;
      }
 }
 
-
-/* Correction du scroll horizontal dans la section Videos */
 #videos {
-    overflow-x: hidden; /* Empêche le scroll horizontal */
+    overflow-x: hidden; 
 }
 
-/* Correction des éléments flex dans la section Videos */
 #videos .flex {
-    flex-wrap: wrap; /* Permet le retour à la ligne sur mobile */
+    flex-wrap: wrap;
 }
 
 #videos .flex > * {
-    min-width: 0; /* Empêche les éléments de dépasser */
+    min-width: 0; 
 }
 
-/* Correction des selects dans la section Videos */
 #videos select {
-    max-width: 100%; /* Les selects ne dépassent pas la largeur */
-    box-sizing: border-box; /* Inclut le padding dans la largeur */
+    max-width: 100%;
+    box-sizing: border-box; 
 }
 
-/* Correction de la grille des vidéos */
 #videos .grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grille responsive */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
 }
 
-/* Correction pour les images dans les cartes vidéo */
 #videos img {
-    max-width: 100%; /* Les images ne dépassent pas leur conteneur */
-    height: auto; /* Maintient les proportions */
+    max-width: 100%; 
+    height: auto; 
 }
 
-/* Correction pour les cartes vidéo */
+
 #videos .bg-white {
-    max-width: 100%; /* Les cartes ne dépassent pas leur conteneur */
-    box-sizing: border-box; /* Inclut le padding dans la largeur */
+    max-width: 100%;
+    box-sizing: border-box; 
 }
 
-/* Correction spécifique pour les selects sur mobile */
 @media (max-width: 768px) {
     #videos .flex.gap-3 {
         width: 100%;
@@ -109,8 +101,9 @@ padding-bottom: 120px;
             <div class="px-4 md:px-6 py-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="font-['Pacifico'] text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"><img src="logo.png" style="width: 150px;" alt=""></div>
-                       
+                        <div class="font-['Pacifico'] text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            <img src="logo.png" style="width: 150px;" alt="">
+                        </div>
                     </div>
                     <div class="flex items-center space-x-4">
                         <!-- Switch Mode -->
@@ -128,10 +121,6 @@ padding-bottom: 120px;
                         <!-- Paramètres -->
                         <button class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                             <i class="ri-settings-3-line text-gray-600 dark:text-gray-300"></i>
-                        </button>
-                        <!-- Déconnexion -->
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors">
-                            <i class="ri-logout-box-line text-red-600 dark:text-red-400"></i>
                         </button>
                     </div>
                 </div>
@@ -223,23 +212,23 @@ padding-bottom: 120px;
         </nav>
         <!-- Contenu principal -->
         <main class="p-4 md:p-6 mobile-content">
-            <!-- Section d'accueil -->
-            <div class="mb-6 md:mb-8 bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-900/30 dark:via-emerald-900/20 dark:to-teal-900/30 rounded-3xl p-6 md:p-8 pattern-bg shadow-xl border border-green-200/50 dark:border-green-800/50">
-                <div class="flex flex-col lg:flex-row items-center justify-between">
-                    <div class="flex-1 text-center lg:text-left mb-6 lg:mb-0">
-                        <h2 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-emerald-700 dark:from-emerald-300 dark:to-green-300 bg-clip-text text-transparent mb-3">Assalamu Alaikum, Ahmed</h2>
-                        <p class="text-lg md:text-xl arabic-text text-green-700 dark:text-emerald-400 mb-4 font-medium">السلام عليكم ورحمة الله وبركاته</p>
-                        <blockquote class="text-gray-700 dark:text-gray-300 italic text-sm md:text-base leading-relaxed bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border-l-4 border-primary">
-                            "Et Nous avons facilité le Coran pour la méditation. Y a-t-il quelqu'un pour réfléchir ?" - Sourate Al-Qamar
-                        </blockquote>
-                    </div>
-                    <div class="hidden lg:block flex-shrink-0">
-                        <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20patterns%20with%20Quran%20book%20and%20prayer%20beads%20on%20elegant%20green%20background%2C%20soft%20lighting%2C%20peaceful%20atmosphere%2C%20high%20quality%20photography&width=300&height=200&seq=hero1&orientation=landscape" alt="Coran" class="rounded-2xl object-cover w-80 h-56 shadow-2xl border-4 border-white/50 dark:border-gray-800/50">
-                    </div>
-                </div>
-            </div>
             <!-- Tableau de bord -->
             <div id="dashboard" class="tab-content">
+                <!-- Section d'accueil -->
+                <div class="mb-6 md:mb-8 bg-gradient-to-br from-green-100 via-emerald-50 to-teal-100 dark:from-green-900/30 dark:via-emerald-900/20 dark:to-teal-900/30 rounded-3xl p-6 md:p-8 pattern-bg shadow-xl border border-green-200/50 dark:border-green-800/50">
+                    <div class="flex flex-col lg:flex-row items-center justify-between">
+                        <div class="flex-1 text-center lg:text-left mb-6 lg:mb-0">
+                            <h2 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-emerald-700 dark:from-emerald-300 dark:to-green-300 bg-clip-text text-transparent mb-3">Assalamu Alaikum, Libasse</h2>
+                            <p class="text-lg md:text-xl arabic-text text-green-700 dark:text-emerald-400 mb-4 font-medium">السلام عليكم ورحمة الله وبركاته</p>
+                            <blockquote class="text-gray-700 dark:text-gray-300 italic text-sm md:text-base leading-relaxed bg-white/50 dark:bg-gray-800/50 p-4 rounded-xl border-l-4 border-primary">
+                                "Et Nous avons facilité le Coran pour la méditation. Y a-t-il quelqu'un pour réfléchir ?" - Sourate Al-Qamar
+                            </blockquote>
+                        </div>
+                        <div class="hidden lg:block flex-shrink-0">
+                            <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20patterns%20with%20Quran%20book%20and%20prayer%20beads%20on%20elegant%20green%20background%2C%20soft%20lighting%2C%20peaceful%20atmosphere%2C%20high%20quality%20photography&width=300&height=200&seq=hero1&orientation=landscape" alt="Coran" class="rounded-2xl object-cover w-80 h-56 shadow-2xl border-4 border-white/50 dark:border-gray-800/50">
+                        </div>
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <!-- Progression globale -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
