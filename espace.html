@@ -45,6 +45,10 @@ padding-bottom: 120px;
         padding-bottom: 5rem !important;
     }
 
+    .fav{
+       padding-bottom: 12px;
+    }
+
      #favorites{
         padding-bottom: 7rem;
      }
@@ -770,10 +774,10 @@ padding-bottom: 120px;
             </div>
             <!-- Favoris -->
             <div id="favorites" class="tab-content hidden">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 ">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">Mes Favoris</h2>
                     <!-- Filtres Desktop -->
-                    <div class="hidden md:flex space-x-2">
+                    <div class="hidden md:flex space-x-2 ">
                         <button class="filter-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
                             Tout
                         </button>
@@ -789,8 +793,8 @@ padding-bottom: 120px;
                     </div>
                 </div>
                 <!-- Filtres Mobile - Barre fixe en bas -->
-                <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
-                    <div class="flex space-x-2 overflow-x-auto">
+                <div class="md:hidden  fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
+                    <div class="flex fav space-x-2 overflow-x-auto">
                         <button class="mobile-filter-btn active flex-shrink-0 px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
                             <div class="flex items-center space-x-2">
                                 <i class="ri-apps-line"></i>
