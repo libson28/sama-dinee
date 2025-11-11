@@ -121,7 +121,116 @@
         width: 100%;
     }
 }
-     </style>
+
+/* ===== STYLES POUR LES NOUVELLES FONCTIONNALITÉS ===== */
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.yete-category-btn.active {
+    background-color: #22c55e;
+    color: white;
+}
+
+.favorites-filter-btn.active,
+.mobile-favorites-filter-btn.active {
+    background-color: #22c55e !important;
+    color: white !important;
+}
+
+/* ===== STYLES POUR LE MENU DÉROULANT DES PARAMÈTRES ===== */
+.settings-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 280px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.settings-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dark .settings-dropdown {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+.settings-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.settings-dropdown-item:hover {
+    background-color: #f3f4f6;
+}
+
+.dark .settings-dropdown-item:hover {
+    background-color: #374151;
+}
+
+.settings-dropdown-divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 4px 0;
+}
+
+.dark .settings-dropdown-divider {
+    background-color: #374151;
+}
+
+/* Styles pour les sections cachées */
+.hidden-section {
+    display: none;
+}
+
+.active-section {
+    display: block;
+}
+
+/* Styles pour les niveaux verrouillés */
+.locked-level {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.locked-level button {
+    pointer-events: none;
+}
+        </style>
     </head>
     <body class="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-emerald-50/20 dark:from-gray-900 dark:via-emerald-900/5 dark:to-green-900/5 transition-colors duration-300">
         <!-- En-tête -->
@@ -133,7 +242,7 @@
                             <img src="logo.png" style="width: 150px;" alt="">
                         </div>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-4 relative">
                         <!-- Switch Mode -->
                         <div class="flex items-center">
                             <button id="theme-toggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
@@ -146,10 +255,40 @@
                             <i class="ri-notification-3-line text-gray-600 dark:text-gray-300"></i>
                             <span class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center text-xs text-white">3</span>
                         </button>
-                        <!-- Paramètres -->
-                        <button class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                            <i class="ri-settings-3-line text-gray-600 dark:text-gray-300"></i>
-                        </button>
+                        <!-- Paramètres - AVEC MENU DÉROULANT -->
+                        <div class="relative">
+                            <button id="settings-btn" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                <i class="ri-settings-3-line text-gray-600 dark:text-gray-300"></i>
+                            </button>
+                            <!-- Menu déroulant des paramètres -->
+                            <div id="settings-dropdown" class="settings-dropdown">
+                                <div class="p-2">
+                                    <button class="settings-dropdown-item edit-profile-btn">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full">
+                                                <i class="ri-user-line text-sm"></i>
+                                            </div>
+                                            <div class="text-left">
+                                                <h4 class="font-medium text-gray-900 dark:text-white text-sm">Modifier le profil</h4>
+                                                <p class="text-xs text-gray-600 dark:text-gray-400">Nom, email, mot de passe</p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <div class="settings-dropdown-divider"></div>
+                                    <button class="settings-dropdown-item logout-btn">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full">
+                                                <i class="ri-logout-box-r-line text-sm"></i>
+                                            </div>
+                                            <div class="text-left">
+                                                <h4 class="font-medium text-red-900 dark:text-red-100 text-sm">Déconnexion</h4>
+                                                <p class="text-xs text-red-600 dark:text-red-300">Quitter l'application</p>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -257,7 +396,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Carte: Heures de Prière -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-purple-500">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Heures de Prière</h3>
+                            <div class="w-8 h-8 flex items-center justify-center bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                                <i class="ri-moon-line text-purple-600 dark:text-purple-400"></i>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Fajr</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">05:30</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Dhuhr</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">13:15</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Asr</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">16:45</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Maghrib</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">19:20</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Isha</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">20:45</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Dakar, Sénégal</p>
+                        </div>
+                    </div>
+                    <br>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     <!-- Progression globale -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4">
@@ -325,18 +499,6 @@
                             Commencer le quiz
                         </button>
                     </div>
-                    <!-- Dernière activité -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Dernière activité</h3>
-                            <div class="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                <i class="ri-time-line text-green-600 dark:text-green-400"></i>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Il y a 2 heures</p>
-                        <p class="font-medium text-gray-900 dark:text-white">Quiz Débutant complété</p>
-                        <p class="text-sm text-green-600 dark:text-green-400">Score: 18/20</p>
-                    </div>
                 </div>
                 <!-- Derniers ajouts -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-8">
@@ -389,16 +551,16 @@
                 <!-- Vidéo de présentation principale -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg mb-8">
                     <div class="relative">
-                        <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20learning%20presentation%20with%20elegant%20Quran%20and%20Arabic%20calligraphy%2C%20peaceful%20mosque%20interior%2C%20warm%20golden%20lighting%2C%20educational%20atmosphere%20with%20modern%20technology%20setup%2C%20high%20quality%20cinematic%20photography&width=1200&height=600&seq=main-video&orientation=landscape" alt="Cours principal" class="w-full h-64 md:h-80 lg:h-96 object-cover">
+                        <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20learning%20presentation%20with%20elegant%20Quran%20and%20Arabic%20calligraphy%2C%20peaceful%20mosque%20interior%2C%20warm%20golden%20lighting%2C%20educational%20atmosphere%20with%20modern%20technology%20setup%2C%20high%20quality%20cinematic%20photography&width=1200&height=600&seq=main-video&orientation=landscape" alt="Cours principal" class="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex items-center justify-center">
                             <div class="text-center">
-                                <div class="w-20 h-20 flex items-center justify-center bg-white/90 rounded-full mb-4 mx-auto">
-                                    <i class="ri-play-fill text-gray-800 text-3xl"></i>
+                                <div class="w-16 h-16 sm:w-18 sm:h-18 flex items-center justify-center bg-white/90 rounded-full mb-3 mx-auto">
+                                    <i class="ri-play-fill text-gray-800 text-2xl sm:text-2xl"></i>
                                 </div>
-                                <h2 class="text-white text-2xl md:text-3xl font-bold mb-2 introduction">Introduction à l'apprentissage du Coran</h2>
+                                <h2 class="text-white text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold mb-2 introduction">Introduction à l'apprentissage du Coran</h2>
                             </div>
                         </div>
-                        <span class="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-3 py-1 rounded">12:45</span>
+                        <span class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded">12:45</span>
                     </div>
                     <div class="p-6">
                         <div class="flex flex-col md:flex-row md:items-center justify-between">
@@ -433,220 +595,358 @@
                         <p class="text-gray-600 dark:text-gray-400">Progressez sourate par sourate dans l'ordre du Coran</p>
                         <!-- Filtres Desktop -->
                         <div class="hidden md:flex space-x-2 ">
-                            <button class="filter-btn active px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
+                            <button class="filter-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="sourates">
                                 Sourates
                             </button>
-                            <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
+                            <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="tafsirs">
                                 Tafsirs
                             </button>
-                            <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
+                            <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="preris">
                                 Préris
+                            </button>
+                            <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="yete">
+                                Yété
                             </button>
                         </div>
                     </div>
                     <!-- Filtres Mobile - Barre fixe en bas -->
                     <div class=" md:hidden fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
                         <div class="vid flex justify-between items-center gap-2 w-full">
-                            <button class="mobile-filter-btn active flex-1 min-w-0 px-3 py-3 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap border border-primary shadow-lg transition-all duration-200 transform hover:scale-105" data-filter="videos">
+                            <button class="mobile-filter-btn active flex-1 min-w-0 px-3 py-3 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap border border-primary shadow-lg transition-all duration-200 transform hover:scale-105" data-filter="sourates">
                                 <div class="flex flex-col items-center space-y-1">
                                     <span class="text-xs font-semibold">
-                                        <i class="ri-play-circle-line text-base"></i> Sourates
+                                        <i class="ri-play-circle-line text-base"></i>
+                                        Sourates
                                     </span>
                                 </div>
                             </button>
-                            <button class="mobile-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary/30" data-filter="audios">
+                            <button class="mobile-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary/30" data-filter="tafsirs">
                                 <div class="flex flex-col items-center space-y-1">
                                     <span class="text-xs font-semibold">
-                                        <i class="ri-headphone-line text-base"></i> Tafsirs
+                                        <i class="ri-headphone-line text-base"></i>
+                                        Tafsirs
                                     </span>
                                 </div>
                             </button>
-                            <button class="mobile-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary/30" data-filter="verses">
+                            <button class="mobile-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary/30" data-filter="preris">
                                 <div class="flex flex-col items-center space-y-1">
                                     <span class="text-xs font-semibold">
-                                        <i class="ri-book-open-line text-base"></i> Préris
+                                        <i class="ri-book-open-line text-base"></i>
+                                        Préris
+                                    </span>
+                                </div>
+                            </button>
+                            <button class="mobile-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary/30" data-filter="yete">
+                                <div class="flex flex-col items-center space-y-1">
+                                    <span class="text-xs font-semibold">
+                                        <i class="ri-video-line text-base"></i>
+                                        Yété
                                     </span>
                                 </div>
                             </button>
                         </div>
                     </div>
-                    <!-- Liste des sourates par ordre -->
-                    <div class="space-y-4 souratess">
-                        <!-- Sourate 1 - Al-Fatiha -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-green-500">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 flex items-center justify-center bg-green-500 text-white rounded-xl font-bold">1</div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center space-x-3 mb-1">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Fatiha</h4>
-                                            <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">الفاتحة</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">L'Ouverture • 7 versets • Mecquoise</p>
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                    
+                    <!-- Section Sourates (active par défaut) -->
+                    <div id="sourates-section" class="active-section">
+                        <!-- Liste des sourates par ordre -->
+                        <div class="space-y-4 souratess">
+                            <!-- Sourate 1 - Al-Fatiha -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-green-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-green-500 text-white rounded-xl font-bold">1</div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Fatiha</h4>
+                                                <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">الفاتحة</span>
                                             </div>
-                                            <span class="text-xs text-green-600 dark:text-green-400 font-medium">Complétée</span>
-                                            <i class="ri-check-line text-green-500"></i>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">L'Ouverture • 7 versets • Mecquoise</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                                </div>
+                                                <span class="text-xs text-green-600 dark:text-green-400 font-medium">Complétée</span>
+                                                <i class="ri-check-line text-green-500"></i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="flex items-center space-x-3 btnn">
-                                    <button class="btnn1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
-                                        <div class="flex items-center space-x-2">
-                                            <span>
-                                                <i class="ri-check-line"></i>
-                                                Terminé
-                                            </span>
-                                        </div>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-500 transition-colors">
-                                        <i class="ri-heart-fill text-red-500"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-3 btnn">
+                                        <button class="btnn1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-check-line"></i>
+                                                    Terminé
+                                                </span>
+                                            </div>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors">
+                                            <i class="ri-heart-fill text-red-500"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Sourate 2 - Al-Baqarah -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 flex items-center justify-center bg-blue-500 text-white rounded-xl font-bold">2</div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center space-x-3 mb-1">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Baqarah</h4>
-                                            <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">البقرة</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">La Vache • 286 versets • Médinoise</p>
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
+                            <!-- Sourate 2 - Al-Baqarah -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-blue-500 text-white rounded-xl font-bold">2</div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Baqarah</h4>
+                                                <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">البقرة</span>
                                             </div>
-                                            <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">45% complété</span>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">La Vache • 286 versets • Médinoise</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
+                                                </div>
+                                                <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">45% complété</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="flex items-center space-x-3 btnn">
-                                    <button class="btnn1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
-                                        <div class="flex items-center space-x-2">
-                                            <span>
-                                                <i class="ri-play-line"></i>
-                                                Commencer
-                                            </span>
-                                        </div>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-red-500 transition-colors">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
+                                    <div class="flex items-center space-x-3 btnn">
+                                        <button class="btnn1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-play-line"></i>
+                                                    Commencer
+                                                </span>
+                                            </div>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors">
+                                            <i class="ri-heart-line"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Sourate 3 - Al-Imran -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 flex items-center justify-center bg-gray-400 text-white rounded-xl font-bold">3</div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center space-x-3 mb-1">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Imran</h4>
-                                            <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">آل عمران</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">La Famille d'Imran • 200 versets • Médinoise</p>
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                            <!-- Sourate 3 - Al-Imran -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-gray-400 text-white rounded-xl font-bold">3</div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Imran</h4>
+                                                <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">آل عمران</span>
                                             </div>
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">verrouillée</span>
-                                            <i class="ri-lock-line text-gray-400"></i>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">La Famille d'Imran • 200 versets • Médinoise</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                                                </div>
+                                                <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">verrouillée</span>
+                                                <i class="ri-lock-line text-gray-400"></i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="flex items-center space-x-3 btnn">
-                                    <button class="btnn1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-not-allowed opacity-50">
-                                        <div class="flex items-center space-x-2">
-                                            <span>
-                                                <i class="ri-lock-line"></i>
-                                                Verrouillé
-                                            </span>
-                                        </div>
-                                    </button>
-                                    <button class="text-gray-300 dark:text-gray-600 cursor-not-allowed">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sourate 4 - An-Nisa -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 flex items-center justify-center bg-gray-400 text-white rounded-xl font-bold">4</div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center space-x-3 mb-1">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate An-Nisa</h4>
-                                            <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">النساء</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Les Femmes • 176 versets • Médinoise</p>
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                                    <div class="flex items-center space-x-3 btnn">
+                                        <button class="btnn1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-not-allowed opacity-50">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-lock-line"></i>
+                                                    Verrouillé
+                                                </span>
                                             </div>
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Non commencée</span>
-                                            <i class="ri-lock-line text-gray-400"></i>
-                                        </div>
+                                        </button>
+                                        <button class="text-gray-300 dark:text-gray-600 cursor-not-allowed">
+                                            <i class="ri-heart-line"></i>
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="flex items-center space-x-3 btnn">
-                                    <button class="btnn1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-not-allowed opacity-50">
-                                        <div class="flex items-center space-x-2">
-                                            <span>
-                                                <i class="ri-lock-line"></i>
-                                                Verrouillé
-                                            </span>
-                                        </div>
-                                    </button>
-                                    <button class="text-gray-300 dark:text-gray-600 cursor-not-allowed">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sourate 5 - Al-Ma'idah -->
-                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-gray-300 dark:border-gray-600">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 flex items-center justify-center bg-gray-400 text-white rounded-xl font-bold">5</div>
-                                    <div class="flex-1">
-                                        <div class="flex items-center space-x-3 mb-1">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Sourate Al-Ma'idah</h4>
-                                            <span class="text-sm arabic-text text-gray-600 dark:text-gray-400">المائدة</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">La Table Servie • 120 versets • Médinoise</p>
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
-                                            </div>
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Non commencée</span>
-                                            <i class="ri-lock-line text-gray-400"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center space-x-3 btnn">
-                                    <button class="btnn1 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap cursor-not-allowed opacity-50">
-                                        <div class="flex items-center space-x-2">
-                                            <span>
-                                                <i class="ri-lock-line"></i>
-                                                Verrouillé
-                                            </span>
-                                        </div>
-                                    </button>
-                                    <button class="text-gray-300 dark:text-gray-600 cursor-not-allowed">
-                                        <i class="ri-heart-line"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Section Tafsirs (cachée par défaut) -->
+                    <div id="tafsirs-section" class="hidden-section">
+                        <div class="space-y-4">
+                            <!-- Tafsir 1 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-purple-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-purple-500 text-white rounded-xl">
+                                            <i class="ri-book-open-line"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Tafsir Sourate Al-Fatiha</h4>
+                                            </div>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Explication détaillée des 7 versets</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 100%"></div>
+                                                </div>
+                                                <span class="text-xs text-purple-600 dark:text-purple-400 font-medium">Complété</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-play-line"></i>
+                                                    Voir
+                                                </span>
+                                            </div>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors">
+                                            <i class="ri-heart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tafsir 2 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-orange-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-orange-500 text-white rounded-xl">
+                                            <i class="ri-book-open-line"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Tafsir Sourate Al-Baqarah</h4>
+                                            </div>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Explication des versets 1-50</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div>
+                                                </div>
+                                                <span class="text-xs text-orange-600 dark:text-orange-400 font-medium">60% complété</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-play-line"></i>
+                                                    Continuer
+                                                </span>
+                                            </div>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors">
+                                            <i class="ri-heart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Préris (cachée par défaut) -->
+                    <div id="preris-section" class="hidden-section">
+                        <div class="space-y-4">
+                            <!-- Préris 1 -->
+                            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-l-4 border-red-500">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-red-500 text-white rounded-xl">
+                                            <i class="ri-lightbulb-line"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-3 mb-1">
+                                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Les bases de la prière</h4>
+                                            </div>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Apprendre les mouvements et positions</p>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                                    <div class="bg-red-500 h-2 rounded-full" style="width: 75%"></div>
+                                                </div>
+                                                <span class="text-xs text-red-600 dark:text-red-400 font-medium">75% complété</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 !rounded-button text-sm font-medium whitespace-nowrap">
+                                            <div class="flex items-center space-x-2">
+                                                <span>
+                                                    <i class="ri-play-line"></i>
+                                                    Continuer
+                                                </span>
+                                            </div>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors">
+                                            <i class="ri-heart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section Yété (cachée par défaut) -->
+                    <div id="yete-section" class="hidden-section">
+                        <!-- Catégories Yété -->
+                        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+                            <button class="yete-category-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap" data-category="all">
+                                Tous
+                            </button>
+                            <button class="yete-category-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600" data-category="cheikh_ahmed">
+                                Cheikh Ahmed
+                            </button>
+                            <button class="yete-category-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600" data-category="dr_omar">
+                                Dr. Omar
+                            </button>
+                            <button class="yete-category-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600" data-category="fatou">
+                                Fatou
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Vidéo Yété 1 -->
+                            <div class="yete-video cheikh_ahmed bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Islamic%20spiritual%20reminder%20short%20video%20with%20beautiful%20nature%20background%2C%20peaceful%20atmosphere%2C%20inspirational%20message%2C%20high%20quality%20photography&width=400&height=200&seq=yete1&orientation=landscape" alt="Rappel spirituel" class="w-full h-40 object-cover">
+                                    <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                            <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">2:15</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">L'importance de la patience</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Cheikh Ahmed</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Vidéo Yété 2 -->
+                            <div class="yete-video dr_omar bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Islamic%20motivational%20talk%20with%20beautiful%20mosque%20background%2C%20inspirational%20message%2C%20peaceful%20atmosphere%2C%20high%20quality%20photography&width=400&height=200&seq=yete2&orientation=landscape" alt="Motivation" class="w-full h-40 object-cover">
+                                    <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                            <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">3:45</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">La gratitude envers Allah</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Dr. Omar</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Vidéo Yété 3 -->
+                            <div class="yete-video fatou bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm group">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20reminder%20for%20women%2C%20peaceful%20home%20environment%2C%20spiritual%20guidance%2C%20high%20quality%20photography&width=400&height=200&seq=yete3&orientation=landscape" alt="Conseil spirituel" class="w-full h-40 object-cover">
+                                    <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                                        <div class="w-12 h-12 flex items-center justify-center bg-white/90 rounded-full">
+                                            <i class="ri-play-fill text-gray-800 text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">1:55</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">La force de la foi</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Fatou</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Pagination -->
                     <div class="flex flex-col sm:flex-row items-center justify-between mt-8 px-4 gap-4">
                         <div class="text-sm text-gray-500 dark:text-gray-400 order-2 sm:order-1">
@@ -756,32 +1056,134 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Sourate Al-Ikhlas - Structure similaire -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <!-- Contenu principal -->
+                            <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                                <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20pattern%20with%20Arabic%20calligraphy%20for%20Al-Ikhlas%2C%20elegant%20blue%20and%20silver%20design%2C%20spiritual%20atmosphere%2C%20high%20quality%20photography&width=80&height=80&seq=audio-ikhlas&orientation=squarish" alt="Al-Ikhlas" class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover shadow-sm flex-shrink-0">
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">Sourate Al-Ikhlas</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 arabic-text mb-1 truncate">الفاتحة</p>
+                                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Sheikh Mishary Al-Afasy</p>
+                                </div>
+                            </div>
+                            <!-- Boutons d'action -->
+                            <div class="flex items-center justify-end sm:justify-center gap-2 sm:gap-2 flex-shrink-0">
+                                <button class="audio-play-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary hover:bg-secondary text-white rounded-full transition-colors flex-shrink-0" data-audio="al-fatiha">
+                                    <i class="ri-play-line text-sm sm:text-lg"></i>
+                                </button>
+                                <button class="text-show-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full transition-colors flex-shrink-0" data-text="al-fatiha">
+                                    <i class="ri-book-open-line text-sm sm:text-lg"></i>
+                                </button>
+                                <button class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors flex-shrink-0">
+                                    <i class="ri-heart-line text-sm sm:text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Lecteur audio caché -->
+                        <div class="audio-player hidden mt-4" id="player-al-fatiha">
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 sm:p-4">
+                                <div class="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                                    <span class="current-time">0:00</span>
+                                    <span class="duration">2:45</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 sm:h-2 cursor-pointer mb-3">
+                                    <div class="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <div class="flex items-center justify-center gap-3 sm:gap-4">
+                                    <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                                        <i class="ri-skip-back-line text-sm sm:text-base"></i>
+                                    </button>
+                                    <button class="play-pause-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-secondary transition-colors">
+                                        <i class="ri-play-line text-sm sm:text-base"></i>
+                                    </button>
+                                    <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                                        <i class="ri-skip-forward-line text-sm sm:text-base"></i>
+                                    </button>
+                                    <button class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                                        <i class="ri-repeat-line text-sm sm:text-base"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Textes cachés -->
+                        <div class="text-display hidden mt-4" id="text-al-fatiha">
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
+                                <div class="text-center">
+                                    <h4 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h4>
+                                    <div class="space-y-3 sm:space-y-4">
+                                        <!-- Verset 1 -->
+                                        <div class="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4 shadow-sm">
+                                            <div class="arabic-text text-lg sm:text-xl lg:text-2xl text-gray-800 dark:text-gray-200 mb-2 sm:mb-3 leading-relaxed text-center">
+                                                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                                            </div>
+                                            <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 italic text-center">
+                                                Bismillahi ar-rahmani ar-raheem
+                                            </div>
+                                            <div class="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-2 text-center">
+                                                Au nom d'Allah, le Tout Miséricordieux, le Très Miséricordieux
+                                            </div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                                                In the name of Allah, the Most Gracious, the Most Merciful
+                                            </div>
+                                        </div>
+                                        <!-- Ajouter les autres versets avec la même structure responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- NOUVEAU: Sourate Al-Falaq -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                                <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20pattern%20with%20Arabic%20calligraphy%20for%20Al-Fatiha%2C%20elegant%20green%20and%20gold%20design%2C%20spiritual%20atmosphere%2C%20high%20quality%20photography&width=80&height=80&seq=audio-fatiha&orientation=squarish" alt="Al-Fatiha" class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover shadow-sm flex-shrink-0">
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">Sourate Al-Falaq</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 arabic-text mb-1 truncate">الفلق</p>
+                                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Sheikh Maher Al-Muaiqly</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-end sm:justify-center gap-2 sm:gap-2 flex-shrink-0">
+                                <button class="audio-play-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary hover:bg-secondary text-white rounded-full transition-colors flex-shrink-0" data-audio="al-falaq">
+                                    <i class="ri-play-line text-sm sm:text-lg"></i>
+                                </button>
+                                <button class="text-show-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full transition-colors flex-shrink-0" data-text="al-falaq">
+                                    <i class="ri-book-open-line text-sm sm:text-lg"></i>
+                                </button>
+                                <button class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors flex-shrink-0">
+                                    <i class="ri-heart-line text-sm sm:text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- NOUVEAU: Sourate An-Nas -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-700">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
                                 <img src="https://readdy.ai/api/search-image?query=Beautiful%20Islamic%20geometric%20pattern%20with%20Arabic%20calligraphy%20for%20Al-Ikhlas%2C%20elegant%20blue%20and%20silver%20design%2C%20spiritual%20atmosphere%2C%20high%20quality%20photography&width=80&height=80&seq=audio-ikhlas&orientation=squarish" alt="Al-Ikhlas" class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover shadow-sm flex-shrink-0">
                                 <div class="min-w-0 flex-1">
-                                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">Sourate Al-Ikhlas</h3>
-                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 arabic-text mb-1 truncate">الإخلاص</p>
-                                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Sheikh Abdul Rahman Al-Sudais</p>
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">Sourate An-Nas</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 arabic-text mb-1 truncate">الناس</p>
+                                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">Sheikh Saud Al-Shuraim</p>
                                 </div>
                             </div>
                             <div class="flex items-center justify-end sm:justify-center gap-2 sm:gap-2 flex-shrink-0">
-                                <button class="audio-play-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary hover:bg-secondary text-white rounded-full transition-colors flex-shrink-0" data-audio="al-ikhlas">
+                                <button class="audio-play-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-primary hover:bg-secondary text-white rounded-full transition-colors flex-shrink-0" data-audio="an-nas">
                                     <i class="ri-play-line text-sm sm:text-lg"></i>
                                 </button>
-                                <button class="text-show-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full transition-colors flex-shrink-0" data-text="al-ikhlas">
+                                <button class="text-show-btn w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full transition-colors flex-shrink-0" data-text="an-nas">
                                     <i class="ri-book-open-line text-sm sm:text-lg"></i>
                                 </button>
-                                <button class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-red-500 transition-colors flex-shrink-0">
-                                    <i class="ri-heart-fill text-sm sm:text-lg"></i>
+                                <button class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors flex-shrink-0">
+                                    <i class="ri-heart-line text-sm sm:text-lg"></i>
                                 </button>
                             </div>
                         </div>
-                        <!-- Contenu audio et texte avec la même structure responsive -->
                     </div>
-                    <!-- Répéter la même structure pour les autres sourates -->
                 </div>
                 <!-- Pagination améliorée -->
                 <div class="flex flex-col sm:flex-row items-center justify-between mt-8 gap-4">
@@ -829,7 +1231,7 @@
                         </button>
                     </div>
                     <!-- Intermédiaire -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-orange-200 dark:border-orange-800">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-orange-200 dark:border-orange-800 locked-level">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Intermédiaire</h3>
                             <div class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-900/30 rounded-full">
@@ -846,12 +1248,16 @@
                                 <div class="bg-orange-600 h-2 rounded-full" style="width: 45%"></div>
                             </div>
                         </div>
-                        <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap transition-colors">
-                            Commencer le quiz
+                        <button class="w-full bg-gray-400 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap cursor-not-allowed">
+                            <div class="flex items-center justify-center space-x-2">
+                                <i class="ri-lock-line"></i>
+                                <span>Niveau verrouillé</span>
+                            </div>
                         </button>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">Atteignez 80% au niveau débutant pour débloquer</p>
                     </div>
                     <!-- Avancé -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-red-200 dark:border-red-800">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border-2 border-red-200 dark:border-red-800 locked-level">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Avancé</h3>
                             <div class="w-12 h-12 flex items-center justify-center bg-red-100 dark:bg-red-900/30 rounded-full">
@@ -868,9 +1274,13 @@
                                 <div class="bg-red-600 h-2 rounded-full" style="width: 12%"></div>
                             </div>
                         </div>
-                        <button class="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap transition-colors">
-                            Débloquer le niveau
+                        <button class="w-full bg-gray-400 text-white py-3 px-4 !rounded-button font-medium whitespace-nowrap cursor-not-allowed">
+                            <div class="flex items-center justify-center space-x-2">
+                                <i class="ri-lock-line"></i>
+                                <span>Niveau verrouillé</span>
+                            </div>
                         </button>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">Atteignez 80% au niveau intermédiaire pour débloquer</p>
                     </div>
                 </div>
                 <!-- Historique des quiz -->
@@ -961,49 +1371,45 @@
             </div>
             <!-- Favoris -->
             <div id="favorites" class="tab-content hidden">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 ">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">Mes Favoris</h2>
-                    <!-- Filtres Desktop -->
-                    <div class="hidden md:flex space-x-2 ">
-                        <button class="filter-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
+                    <!-- Filtres Desktop - CORRIGÉS -->
+                    <div class="hidden md:flex space-x-2">
+                        <button class="favorites-filter-btn active px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
                             Tout
                         </button>
-                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
+                        <button class="favorites-filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
                             Vidéos
                         </button>
-                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
+                        <button class="favorites-filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
                             Audios
                         </button>
-                        <button class="filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
+                        <button class="favorites-filter-btn px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap hover:bg-primary/10 dark:hover:bg-primary/20 border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
                             Versets
                         </button>
                     </div>
                 </div>
-                <!-- Filtres Mobile - Barre fixe en bas -->
-                <div class="md:hidden  fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
-                    <div class="flex fav space-x-2 overflow-x-auto justify-center">
-                        <button class="mobile-filter-btn active flex-shrink-0 px-4 py-2 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap shadow-lg" data-filter="all">
-                            <div class="flex items-center space-x-2">
-                                <i class="ri-apps-line"></i>
-                                <span>Tout</span>
+                <!-- Filtres Mobile - Barre fixe en bas - CORRIGÉS -->
+                <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 dark:bg-gray-800/95 glass-effect border-t border-green-100 dark:border-green-900/50 z-30 px-4 py-3">
+                    <div class="flex fav justify-between items-center gap-2 w-full">
+                        <button class="mobile-favorites-filter-btn active flex-1 min-w-0 px-3 py-3 bg-primary text-white !rounded-button text-sm font-medium whitespace-nowrap border border-primary shadow-lg transition-all duration-200" data-filter="all">
+                            <div class="flex flex-col items-center space-y-1">
+                                <span class="text-xs font-semibold">Tout</span>
                             </div>
                         </button>
-                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="videos">
-                            <div class="flex items-center space-x-2">
-                                <i class="ri-play-circle-line"></i>
-                                <span>Vidéos</span>
+                        <button class="mobile-favorites-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10" data-filter="videos">
+                            <div class="flex flex-col items-center space-y-1">
+                                <span class="text-xs font-semibold">Vidéos</span>
                             </div>
                         </button>
-                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="audios">
-                            <div class="flex items-center space-x-2">
-                                <i class="ri-headphone-line"></i>
-                                <span>Audios</span>
+                        <button class="mobile-favorites-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10" data-filter="audios">
+                            <div class="flex flex-col items-center space-y-1">
+                                <span class="text-xs font-semibold">Audios</span>
                             </div>
                         </button>
-                        <button class="mobile-filter-btn flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm" data-filter="verses">
-                            <div class="flex items-center space-x-2">
-                                <i class="ri-book-open-line"></i>
-                                <span>Versets</span>
+                        <button class="mobile-favorites-filter-btn flex-1 min-w-0 px-3 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 !rounded-button text-sm font-medium whitespace-nowrap border border-gray-200 dark:border-gray-600 shadow-sm transition-all duration-200 hover:bg-primary/10" data-filter="verses">
+                            <div class="flex flex-col items-center space-y-1">
+                                <span class="text-xs font-semibold">Versets</span>
                             </div>
                         </button>
                     </div>
@@ -1219,11 +1625,7 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-4">Série actuelle : 7 jours</p>
                     </div>
                 </div>
-                <!-- Graphique de progression -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm mb-8">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Progression mensuelle</h3>
-                    <div id="progress-chart" class="h-80"></div>
-                </div>
+               
                 <!-- Progression par sourate -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">Progression par sourate</h3>
@@ -1275,6 +1677,65 @@
                 </div>
             </div>
         </main>
+        <!-- AJOUT: Popup modification du profil -->
+        <div id="edit-profile-popup" class="fixed inset-0 popup-overlay z-50 hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl popup-content w-full max-w-md">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Modifier le profil</h3>
+                            <button id="close-edit-profile" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Nom d'utilisateur
+                            </label>
+                            <input
+                                type="text"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                                value="Libasse"
+                                placeholder="Votre nom d'utilisateur"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Adresse email
+                            </label>
+                            <input
+                                type="email"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                                value="libasse@example.com"
+                                placeholder="Votre adresse email"
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Nouveau mot de passe
+                            </label>
+                            <input type="password" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Nouveau mot de passe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Confirmer le mot de passe
+                            </label>
+                            <input type="password" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Confirmer le mot de passe">
+                        </div>
+                        <div class="flex space-x-3 pt-4">
+                            <button id="cancel-edit-profile" class="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
+                                Annuler
+                            </button>
+                            <button id="save-profile" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Boîte de notifications -->
         <div id="notifications-panel" class="fixed top-0 right-0 w-96 h-full bg-white dark:bg-gray-800 shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -1326,6 +1787,289 @@
         </div>
         <!-- Overlay pour les notifications -->
         <div id="notifications-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+        <!-- ===== SCRIPTS JAVASCRIPT ===== -->
+        <!-- Script: Gestion du menu déroulant des paramètres -->
+        <script id="settings-dropdown-script">
+            document.addEventListener('DOMContentLoaded', function() {
+                const settingsBtn = document.getElementById('settings-btn');
+                const settingsDropdown = document.getElementById('settings-dropdown');
+                const editProfileBtn = document.querySelector('.edit-profile-btn');
+                const logoutBtn = document.querySelector('.logout-btn');
+                const editProfilePopup = document.getElementById('edit-profile-popup');
+                const closeEditProfile = document.getElementById('close-edit-profile');
+                const cancelEditProfile = document.getElementById('cancel-edit-profile');
+                const saveProfile = document.getElementById('save-profile');
+
+                // Ouvrir/fermer le menu déroulant
+                settingsBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    settingsDropdown.classList.toggle('show');
+                });
+
+                // Fermer le menu déroulant en cliquant à l'extérieur
+                document.addEventListener('click', function() {
+                    settingsDropdown.classList.remove('show');
+                });
+
+                // Empêcher la fermeture quand on clique dans le menu
+                settingsDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+
+                // Ouvrir modification du profil
+                editProfileBtn.addEventListener('click', function() {
+                    settingsDropdown.classList.remove('show');
+                    editProfilePopup.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                // Fermer modification du profil
+                closeEditProfile.addEventListener('click', function() {
+                    editProfilePopup.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+
+                // Annuler modification du profil
+                cancelEditProfile.addEventListener('click', function() {
+                    editProfilePopup.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                });
+
+                // Sauvegarder le profil
+                saveProfile.addEventListener('click', function() {
+                    // Logique pour sauvegarder les modifications
+                    editProfilePopup.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                    alert('Profil mis à jour avec succès!');
+                });
+
+                // Déconnexion
+                logoutBtn.addEventListener('click', function() {
+                    if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                        // Logique de déconnexion
+                        alert('Déconnexion réussie!');
+                        settingsDropdown.classList.remove('show');
+                    }
+                });
+
+                // Fermer en cliquant à l'extérieur du popup
+                editProfilePopup.addEventListener('click', function(e) {
+                    if (e.target === editProfilePopup) {
+                        editProfilePopup.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+        </script>
+        <!-- Script: Filtres favoris corrigés -->
+        <script id="favorites-filter-fixed-script">
+            document.addEventListener('DOMContentLoaded', function() {
+                const filterBtns = document.querySelectorAll('.favorites-filter-btn');
+                const mobileFilterBtns = document.querySelectorAll('.mobile-favorites-filter-btn');
+                const favoriteItems = document.querySelectorAll('.favorite-item');
+
+                function applyFilter(filter) {
+                    // Reset desktop filters
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    });
+
+                    // Reset mobile filters
+                    mobileFilterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    });
+
+                    // Activate current desktop filter
+                    const activeDesktopFilter = document.querySelector(`.favorites-filter-btn[data-filter="${filter}"]`);
+                    if (activeDesktopFilter) {
+                        activeDesktopFilter.classList.add('active', 'bg-primary', 'text-white');
+                        activeDesktopFilter.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    }
+
+                    // Activate current mobile filter
+                    const activeMobileFilter = document.querySelector(`.mobile-favorites-filter-btn[data-filter="${filter}"]`);
+                    if (activeMobileFilter) {
+                        activeMobileFilter.classList.add('active', 'bg-primary', 'text-white');
+                        activeMobileFilter.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    }
+
+                    // Filter items
+                    favoriteItems.forEach(item => {
+                        if (filter === 'all' || item.classList.contains(filter)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+
+                // Desktop filters
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        applyFilter(this.dataset.filter);
+                    });
+                });
+
+                // Mobile filters
+                mobileFilterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        applyFilter(this.dataset.filter);
+                    });
+                });
+            });
+        </script>
+        <!-- Script: Gestion des filtres vidéos (Sourates, Tafsirs, Préris, Yété) -->
+        <script id="videos-filter-script">
+            document.addEventListener('DOMContentLoaded', function() {
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                const mobileFilterBtns = document.querySelectorAll('.mobile-filter-btn');
+                const sections = {
+                    'sourates': document.getElementById('sourates-section'),
+                    'tafsirs': document.getElementById('tafsirs-section'),
+                    'preris': document.getElementById('preris-section'),
+                    'yete': document.getElementById('yete-section')
+                };
+
+                // Catégories Yété
+                const yeteCategoryBtns = document.querySelectorAll('.yete-category-btn');
+                const yeteVideos = document.querySelectorAll('.yete-video');
+
+                function applyVideoFilter(filter) {
+                    // Reset all sections
+                    Object.values(sections).forEach(section => {
+                        section.classList.remove('active-section');
+                        section.classList.add('hidden-section');
+                    });
+
+                    // Show selected section
+                    if (sections[filter]) {
+                        sections[filter].classList.remove('hidden-section');
+                        sections[filter].classList.add('active-section');
+                    }
+
+                    // Reset desktop filters
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    });
+
+                    // Reset mobile filters
+                    mobileFilterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    });
+
+                    // Activate current desktop filter
+                    const activeDesktopFilter = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                    if (activeDesktopFilter) {
+                        activeDesktopFilter.classList.add('active', 'bg-primary', 'text-white');
+                        activeDesktopFilter.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    }
+
+                    // Activate current mobile filter
+                    const activeMobileFilter = document.querySelector(`.mobile-filter-btn[data-filter="${filter}"]`);
+                    if (activeMobileFilter) {
+                        activeMobileFilter.classList.add('active', 'bg-primary', 'text-white');
+                        activeMobileFilter.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    }
+                }
+
+                // Desktop filters
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        applyVideoFilter(this.dataset.filter);
+                    });
+                });
+
+                // Mobile filters
+                mobileFilterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        applyVideoFilter(this.dataset.filter);
+                    });
+                });
+
+                // Gestion des catégories Yété
+                function applyYeteCategory(category) {
+                    yeteVideos.forEach(video => {
+                        if (category === 'all' || video.classList.contains(category)) {
+                            video.style.display = 'block';
+                        } else {
+                            video.style.display = 'none';
+                        }
+                    });
+
+                    // Reset category buttons
+                    yeteCategoryBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    });
+
+                    // Activate current category
+                    const activeCategory = document.querySelector(`.yete-category-btn[data-category="${category}"]`);
+                    if (activeCategory) {
+                        activeCategory.classList.add('active', 'bg-primary', 'text-white');
+                        activeCategory.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
+                    }
+                }
+
+                // Yété category buttons
+                yeteCategoryBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        applyYeteCategory(this.dataset.category);
+                    });
+                });
+            });
+        </script>
+        <!-- Script: Gestion des niveaux de quiz verrouillés -->
+        <script id="quiz-levels-script">
+            document.addEventListener('DOMContentLoaded', function() {
+                // Simulation des scores de l'utilisateur
+                const userScores = {
+                    beginner: 85, // 85% au niveau débutant
+                    intermediate: 45, // 45% au niveau intermédiaire
+                    advanced: 12 // 12% au niveau avancé
+                };
+
+                const intermediateLevel = document.querySelector('.locked-level:nth-child(2)');
+                const advancedLevel = document.querySelector('.locked-level:nth-child(3)');
+
+                // Vérifier si les niveaux doivent être débloqués
+                function checkQuizLevels() {
+                    // Niveau intermédiaire débloqué si score débutant >= 80%
+                    if (userScores.beginner >= 80) {
+                        intermediateLevel.classList.remove('locked-level');
+                        const button = intermediateLevel.querySelector('button');
+                        button.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                        button.classList.add('bg-orange-600', 'hover:bg-orange-700');
+                        button.innerHTML = '<div class="flex items-center justify-center space-x-2"><i class="ri-play-line"></i><span>Commencer le quiz</span></div>';
+                        intermediateLevel.querySelector('p').textContent = 'Prêt à commencer';
+                    }
+
+                    // Niveau avancé débloqué si score intermédiaire >= 80%
+                    if (userScores.intermediate >= 80) {
+                        advancedLevel.classList.remove('locked-level');
+                        const button = advancedLevel.querySelector('button');
+                        button.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                        button.classList.add('bg-red-600', 'hover:bg-red-700');
+                        button.innerHTML = '<div class="flex items-center justify-center space-x-2"><i class="ri-play-line"></i><span>Commencer le quiz</span></div>';
+                        advancedLevel.querySelector('p').textContent = 'Prêt à commencer';
+                    }
+                }
+
+                // Vérifier les niveaux au chargement
+                checkQuizLevels();
+
+                // Simuler la progression (pour la démo)
+                setTimeout(() => {
+                    // Simuler que l'utilisateur atteint 90% au niveau débutant
+                    userScores.beginner = 90;
+                    checkQuizLevels();
+                }, 2000);
+            });
+        </script>
+        <!-- VOS SCRIPTS EXISTANTS -->
         <script id="theme-toggle-script">
 document.addEventListener('DOMContentLoaded', function() {
 const themeToggle = document.getElementById('theme-toggle');
@@ -1401,69 +2145,6 @@ switchTab(this.dataset.tab);
 });
 });
         </script>
-        <script id="video-filter-script">
-document.addEventListener('DOMContentLoaded', function() {
-const videoFilterBtns = document.querySelectorAll('.video-filter-btn');
-const mobileVideoFilterBtns = document.querySelectorAll('.mobile-video-filter-btn');
-const videoContents = document.querySelectorAll('.video-content');
-const videoFiltersMobile = document.getElementById('video-filters-mobile');
-function applyVideoFilter(filter) {
-// Reset desktop filters
-videoFilterBtns.forEach(b => {
-b.classList.remove('active', 'bg-primary', 'text-white');
-b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-});
-// Reset mobile filters
-mobileVideoFilterBtns.forEach(b => {
-b.classList.remove('active', 'bg-primary', 'text-white');
-b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-});
-// Activate current desktop filter
-const activeDesktopFilter = document.querySelector(`.video-filter-btn[data-filter="${filter}"]`);
-if (activeDesktopFilter) {
-activeDesktopFilter.classList.add('active', 'bg-primary', 'text-white');
-activeDesktopFilter.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-}
-// Activate current mobile filter
-const activeMobileFilter = document.querySelector(`.mobile-video-filter-btn[data-filter="${filter}"]`);
-if (activeMobileFilter) {
-activeMobileFilter.classList.add('active', 'bg-primary', 'text-white');
-activeMobileFilter.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-}
-// Show/hide content
-videoContents.forEach(content => {
-content.classList.add('hidden');
-});
-const targetContent = document.querySelector(`.video-content.${filter}`);
-if (targetContent) {
-targetContent.classList.remove('hidden');
-}
-}
-// Desktop filters
-videoFilterBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-applyVideoFilter(this.dataset.filter);
-});
-});
-// Mobile filters
-mobileVideoFilterBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-applyVideoFilter(this.dataset.filter);
-});
-});
-// Show/hide mobile filters when videos tab is active
-const tabBtns = document.querySelectorAll('.tab-btn, .mobile-tab-btn');
-tabBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-if (this.dataset.tab === 'videos') {
-videoFiltersMobile.style.display = 'block';
-} else {
-videoFiltersMobile.style.display = 'none';
-}
-});
-});
-});
-        </script>
         <script id="notifications-script">
 document.addEventListener('DOMContentLoaded', function() {
 const notificationsBtn = document.getElementById('notifications-btn');
@@ -1483,153 +2164,6 @@ document.body.style.overflow = 'auto';
 notificationsBtn.addEventListener('click', openNotifications);
 closeNotifications.addEventListener('click', closeNotificationsPanel);
 notificationsOverlay.addEventListener('click', closeNotificationsPanel);
-});
-        </script>
-        <script id="favorites-filter-script">
-document.addEventListener('DOMContentLoaded', function() {
-const filterBtns = document.querySelectorAll('.filter-btn');
-const mobileFilterBtns = document.querySelectorAll('.mobile-filter-btn');
-const favoriteItems = document.querySelectorAll('.favorite-item');
-function applyFilter(filter) {
-// Reset desktop filters
-filterBtns.forEach(b => {
-b.classList.remove('active', 'bg-primary', 'text-white');
-b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-});
-// Reset mobile filters
-mobileFilterBtns.forEach(b => {
-b.classList.remove('active', 'bg-primary', 'text-white');
-b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-});
-// Activate current desktop filter
-const activeDesktopFilter = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
-if (activeDesktopFilter) {
-activeDesktopFilter.classList.add('active', 'bg-primary', 'text-white');
-activeDesktopFilter.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-}
-// Activate current mobile filter
-const activeMobileFilter = document.querySelector(`.mobile-filter-btn[data-filter="${filter}"]`);
-if (activeMobileFilter) {
-activeMobileFilter.classList.add('active', 'bg-primary', 'text-white');
-activeMobileFilter.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-200', 'dark:border-gray-600');
-}
-// Filter items
-favoriteItems.forEach(item => {
-if (filter === 'all' || item.classList.contains(filter)) {
-item.style.display = 'block';
-} else {
-item.style.display = 'none';
-}
-});
-}
-// Desktop filters
-filterBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-applyFilter(this.dataset.filter);
-});
-});
-// Mobile filters
-mobileFilterBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-applyFilter(this.dataset.filter);
-});
-});
-});
-        </script>
-        <script id="charts-script">
-document.addEventListener('DOMContentLoaded', function() {
-// Graphique d'activité hebdomadaire
-const weeklyChart = echarts.init(document.getElementById('weekly-chart'));
-const weeklyOption = {
-animation: false,
-grid: { top: 0, right: 0, bottom: 0, left: 0 },
-xAxis: {
-type: 'category',
-data: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-axisLine: { show: false },
-axisTick: { show: false }
-},
-yAxis: {
-type: 'value',
-show: false
-},
-series: [{
-data: [45, 60, 30, 80, 55, 70, 85],
-type: 'line',
-smooth: true,
-symbol: 'none',
-lineStyle: { color: '#22c55e', width: 3 },
-areaStyle: {
-color: {
-type: 'linear',
-x: 0, y: 0, x2: 0, y2: 1,
-colorStops: [
-{ offset: 0, color: 'rgba(34, 197, 94, 0.1)' },
-{ offset: 1, color: 'rgba(34, 197, 94, 0.01)' }
-]
-}
-}
-}],
-tooltip: {
-trigger: 'axis',
-backgroundColor: 'rgba(255, 255, 255, 0.9)',
-textStyle: { color: '#1f2937' }
-}
-};
-weeklyChart.setOption(weeklyOption);
-// Graphique de progression mensuelle
-const progressChart = echarts.init(document.getElementById('progress-chart'));
-const progressOption = {
-animation: false,
-grid: { top: 20, right: 20, bottom: 40, left: 40 },
-xAxis: {
-type: 'category',
-data: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
-axisLine: { lineStyle: { color: '#e5e7eb' } },
-axisTick: { show: false }
-},
-yAxis: {
-type: 'value',
-axisLine: { show: false },
-axisTick: { show: false },
-splitLine: { lineStyle: { color: '#f3f4f6' } }
-},
-series: [
-{
-name: 'Heures d\'étude',
-type: 'bar',
-data: [12, 15, 18, 16],
-itemStyle: {
-color: '#57b5e7',
-borderRadius: [4, 4, 0, 0]
-}
-},
-{
-name: 'Quiz complétés',
-type: 'bar',
-data: [5, 7, 8, 6],
-itemStyle: {
-color: '#8dd3c7',
-borderRadius: [4, 4, 0, 0]
-}
-}
-],
-legend: {
-data: ['Heures d\'étude', 'Quiz complétés'],
-bottom: 0
-},
-tooltip: {
-trigger: 'axis',
-backgroundColor: 'rgba(255, 255, 255, 0.9)',
-textStyle: { color: '#1f2937' }
-}
-};
-progressChart.setOption(progressOption);
-// Redimensionner les graphiques lors du changement de taille de fenêtre
-window.addEventListener('resize', function() {
-weeklyChart.resize();
-progressChart.resize();
-});
 });
         </script>
         <script id="audio-controls-script">
